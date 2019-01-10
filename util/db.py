@@ -51,10 +51,32 @@ def user_exist():
     db.close()
     return False
 
-def buy_stock(user, stock_name, num_stock, price_paid):
-    """Remove the stock rmv_stock_name when the user sells stocks."""
+def buy_stock(user, new_stock_name, new_num_stock, new_price_paid):
+    """Inserts a new stock into the list of users' bought stocks"""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
+
+    c.execute("INSERT INTO user_stocks VALUES(?, ?)", (user, new_stock_name, new_num_stock, new_price_paid))
+
+    db.commit()
+    db.close()
+
+def add_profile(user, new_account_val, buying_power, new_cash, new_annual_ret):
+    """Inserts a new stock into the list of users' bought stocks"""
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    c.execute("INSERT INTO user_stocks VALUES(?, ?)", (user, new_stock_name, new_num_stock, new_price_paid))
+
+    db.commit()
+    db.close()
+
+def add_watchlist(user, new_stock_name):
+    """Inserts a new stock into the list of users' bought stocks"""
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    c.execute("INSERT INTO user_stocks VALUES(?, ?)", (user, new_stock_name, new_num_stock, new_price_paid))
 
     db.commit()
     db.close()

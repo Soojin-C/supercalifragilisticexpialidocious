@@ -26,17 +26,38 @@ taniaC -- 2019-01-07 09:05
 --------------------------------------------------------------
 0. created devlog.txt
 ==============================================================
-taniaC, shinB, hasifA, soojinC -- 2019-01-07 21:07
+taniaC shinB hasifA soojinC -- 2019-01-07 21:07
 --------------------------------------------------------------
 0. wrote up and collaborated on the design doc
 1. created the component map, site map.
 ==============================================================
-soojinC, taniaC, shinB, hasifA -- 2019-01-08 21:57
+soojinC taniaC shinB hasifA -- 2019-01-08 21:57
 --------------------------------------------------------------
 Based on the review, we edited design.pdf:
 0. Fixed the data base schema for clarity and missing information (number of stocks).
 1. Adjusted the component map for missing connections and api.
 2. Added the The New York Times API as another API to use.
+==============================================================
+taniaC soojinC -- 2019-01-09 13:45
+--------------------------------------------------------------
+0. Added html files, db
+1. Basic login features
+==============================================================
+shinB hasifA -- 2019-01-09 13:47
+--------------------------------------------------------------
+0. Created info.py
+==============================================================
+taniaC hasifA-- 2019-01-10 13:52
+--------------------------------------------------------------
+0. Enhancing login features and html files
+==============================================================
+shinB -- 2019-01-10 13:53
+--------------------------------------------------------------
+0. Added getCompany to info.py
+==============================================================
+soojinC -- 2019-01-10 13:55
+--------------------------------------------------------------
+0. Added buy_stock and addProfile to db.py
 ==============================================================
 firstL -- 2019-01-XX XX:XX
 --------------------------------------------------------------

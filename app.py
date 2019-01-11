@@ -1,11 +1,10 @@
-#Team pengWin: Maryann Foley and Tania Cao
-#SoftDev1 pd8
-#K14 -- Do I Know You?
-#2018-10-02    
+import os
 
 from flask import Flask, render_template, request,session,url_for,redirect
-import os
-import csv
+
+from util import db, user_info
+
+
 app = Flask(__name__)
 
 app.secret_key=os.urandom(32)
@@ -16,28 +15,55 @@ def home():
 		return render_template("welcome.html")
 	return render_template("login.html",Title = 'Login')
 
-@app.route("/auth", methods=['POST'])
-def auth():
-	givenUname=request.form["username"]
-	givenPwd=request.form["password"]
-	if givenUname=="usr": 
-		if givenPwd=="pwd":
-			session["uname"]=givenUname
-			if session.get("error"):
-				session.pop("error")
-		else:
-			session["error"]=2#error 2 means password was wrong
-		return redirect(url_for("home"))
-	else:
-		session["error"]=1
-		return redirect(url_for("home"))#error 1 means username was wrong
+#Authenticates user and adds session
+#Returns to the page the user was on previously(?)
+@app.route("/login", methods=['POST'])
+def login():
+	given_user = request.form["username"]
+	given_pwd = request.form["password"]
+	if db.auth_user(given_user, given_pwd):
+        session["uname"] = given_user
+        return redirect(url_for("home"))
+    else:
+        flash("username or password is incorrect")
+        return redirect(url_for(""))
 
-@app.route("/logout", methods=['POST',"GET"])
+#Logs the user out and removes session
+#returns to the page the user was on previously
+@app.route("/logout")
 def logout():
 	if session.get("uname"):
 		session.pop("uname")
 		print(session)
 	return redirect(url_for("home"))
+
+#Sends the user to the register.html to register a new account
+@app.route("/register")
+def register():
+	return render_template("register.html")
+
+#Attempts to add the user to the database
+@app.route("/adduser")
+def add_user():
+	new_user = request.args["user"]
+	new_pswd = request.args["password"]
+	confirm_pswd = request.args["confirm_password"]
+
+    if(not new_user.strip() or not new_pswd or not confirm_pswd):
+        flash("Please fill in all fields")
+        return redirect(url_for("register"))
+
+    if(db.check_user(new_user)):
+        flash("User already exists")
+        return redirect(url_for("register"))
+
+    if(new_pswd != confirm_pswd):
+        flash("Passwords don't match")
+        return redirect(url_for("register"))
+
+    db.add_user(new_user, new_pswd)
+    session["logged_in"] = new_user
+    return redirect(url_for("home"))
 
 if __name__ == "__main__":
     app.debug = True

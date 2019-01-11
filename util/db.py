@@ -20,6 +20,7 @@ def create_tables():
     db.commit() #save changes
     db.close()  #close database
 
+#login / register routes
 def add_user(username, password):
     """Insert the credentials for newly registered users into the database"""
     db = sqlite3.connect(DB_FILE)
@@ -39,7 +40,7 @@ def auth_user(username, password):
     db.close()
     return False
 
-def user_exist():
+def user_exist(username):
     """Check if a username has already been taken when registering."""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -51,32 +52,48 @@ def user_exist():
     db.close()
     return False
 
+#Adding to stock and profile functions
 def buy_stock(user, new_stock_name, new_num_stock, new_price_paid):
     """Inserts a new stock into the list of users' bought stocks"""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    c.execute("INSERT INTO user_stocks VALUES(?, ?)", (user, new_stock_name, new_num_stock, new_price_paid))
+    c.execute("INSERT INTO user_stocks VALUES(?, ?, ?, ?)", (user, new_stock_name, new_num_stock, new_price_paid))
 
     db.commit()
     db.close()
 
-def add_profile(user, new_account_val, buying_power, new_cash, new_annual_ret):
-    """Inserts a new stock into the list of users' bought stocks"""
+def add_profile(user, new_account_val, new_buying_power, new_cash, new_annual_ret):
+    """Inserts an updated version of the user's portfolio. Removes the old version"""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    c.execute("INSERT INTO user_stocks VALUES(?, ?)", (user, new_stock_name, new_num_stock, new_price_paid))
+    rmv_user(user)
+    c.execute("INSERT INTO portfolio VALUES(?, ?, ?, ?, ?)", (user, new_account_val, new_buying_power, new_cash, new_annual_ret))
 
     db.commit()
     db.close()
 
-def add_watchlist(user, new_stock_name):
+# =====================================================================================
+def add_watchlist(user, new_watchlist):
     """Inserts a new stock into the list of users' bought stocks"""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    c.execute("INSERT INTO user_stocks VALUES(?, ?)", (user, new_stock_name, new_num_stock, new_price_paid))
+    c.execute("INSERT INTO watchlist VALUES(?, ?)", (user, new_watchlist))
+
+    db.commit()
+    db.close()
+
+def check_exist(user, item ):
+
+
+def rmv_user(user):
+    """Remove the stock rmv_stock_name when the user sells stocks."""
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    c.execute("DELETE FROM user_stock WHERE username = '{}'".format(user))
 
     db.commit()
     db.close()

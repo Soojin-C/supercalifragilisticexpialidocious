@@ -1,6 +1,6 @@
 import sqlite3
 DB_FILE = "data/stock.db"
-
+'''
 def create_tables():
     """Creates tables for users' info, portfolios, users' stocks and watchlist"""
     db = sqlite3.connect("../" + DB_FILE)
@@ -117,3 +117,4 @@ def remove_watchlist(user, rmv_watchlist_name):
 
     db.commit()
     db.close()
+'''

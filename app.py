@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, render_template, request,session,url_for,redirect
 
-from util import db, user_info
+#from util import db, user_info
 
 
 app = Flask(__name__)
@@ -12,21 +12,22 @@ app.secret_key=os.urandom(32)
 @app.route("/", methods=['POST',"GET"])
 def home():
 	if session.get("uname"):
-		return render_template("welcome.html")
-	return render_template("login.html",Title = 'Login')
+		return render_template("home.html")
+	return render_template("home.html",Title = 'Login')
 
 #Authenticates user and adds session
 #Returns to the page the user was on previously(?)
+'''
 @app.route("/login", methods=['POST'])
 def login():
 	given_user = request.form["username"]
 	given_pwd = request.form["password"]
 	if db.auth_user(given_user, given_pwd):
-        session["uname"] = given_user
-        return redirect(url_for("home"))
-    else:
-        flash("username or password is incorrect")
-        return redirect(url_for(""))
+		session["uname"] = given_user
+		return redirect(url_for("home"))
+	else:
+		flash("username or password is incorrect")
+		return redirect(url_for(""))
 
 #Logs the user out and removes session
 #returns to the page the user was on previously
@@ -64,7 +65,7 @@ def add_user():
     db.add_user(new_user, new_pswd)
     session["logged_in"] = new_user
     return redirect(url_for("home"))
-
+'''
 if __name__ == "__main__":
     app.debug = True
     app.run()

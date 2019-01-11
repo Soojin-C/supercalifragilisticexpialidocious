@@ -20,5 +20,16 @@ def getCompany(name):
         return symbols[name]
     else:
         return "NONE"
-
-#print(getCompany("Nymox Pharmaceutical Corporation"))
+'''
+Given a valid IEX Trading symbol, will return the stock information of the past 30 days.
+'''
+def getStocks(symbol):
+	comp = getCompany(symbol)
+	iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" +comp + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
+	data = json.loads(request.urlopen(iexUrl).read())
+	return data["chart"]
+	
+		
+		
+		
+#print(getStocks("Apple Inc."))

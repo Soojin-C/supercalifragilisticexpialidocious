@@ -1,9 +1,9 @@
 import sqlite3
 DB_FILE = "data/stock.db"
-'''
+
 def create_tables():
     """Creates tables for users' info, portfolios, users' stocks and watchlist"""
-    db = sqlite3.connect("../" + DB_FILE)
+    db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     command = "CREATE TABLE user_info (username TEXT, password TEXT)"
     c.execute(command)
@@ -74,36 +74,48 @@ def add_profile(user, new_account_val, new_buying_power, new_cash, new_annual_re
     db.commit()
     db.close()
 
-# =====================================================================================
 def add_watchlist(user, new_watchlist):
-    """Inserts a new stock into the list of users' bought stocks"""
+    """Inserts a new watchlist stock into the db for a users watchlist"""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
+    if (check_exist(user, new_watchlist)):
+        db.close()
+        return False
     c.execute("INSERT INTO watchlist VALUES(?, ?)", (user, new_watchlist))
 
     db.commit()
     db.close()
+    return True
 
 def check_exist(user, item ):
-
-
-def rmv_user(user):
-    """Remove the stock rmv_stock_name when the user sells stocks."""
+    """Checks if the item exists for a user"""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    c.execute("DELETE FROM user_stock WHERE username = '{}'".format(user))
+    for each in c.execute("SELECT watchlist.stock_name FROM watchlist WHERE username = '{}'". format(user)):
+        if (each == item):
+            db.close()
+            return True
+    return False
+
+def rmv_user(user):
+    """Remove the portfolio info of user"""
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    c.execute("DELETE FROM portfolio WHERE username = '{}'".format(user))
 
     db.commit()
     db.close()
 
+# =====================================================================================
 def remove_stock(user, rmv_stock_name):
     """Remove the stock rmv_stock_name when the user sells stocks."""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    c.execute("DELETE FROM user_stock WHERE username = '{}' and stock_name = '{}'".format(user, rmv_stock_name))
+    c.execute("DELETE FROM user_stocks WHERE username = '{}' and stock_name = '{}'".format(user, rmv_stock_name))
 
     db.commit()
     db.close()
@@ -117,4 +129,21 @@ def remove_watchlist(user, rmv_watchlist_name):
 
     db.commit()
     db.close()
-'''
+
+def get_stocks(user):
+    """Remove the stock rmv_watchlist_name from the watchlist for user."""
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    c.execute("DELETE FROM watchlist WHERE username = '{}' and stock_name = '{}'".format(user))
+
+    db.commit()
+    db.close()
+
+#create_tables()
+
+#buy_stock('user', 'new_stock_name', 10, 100)
+#buy_stock('user1', 'new_stock_name', 13, 14)
+#buy_stock('user', 'new_stock_name', 19, 6)
+#buy_stock('user1', 'new_stock_name', 14, 14)
+#buy_stock('user1', 'new_stock_name', 10, 10)

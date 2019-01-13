@@ -1,0 +1,17 @@
+{% extends "parent.html" %}
+
+{% block title %} Stock Research {% endblock %}
+
+{% block content %}
+
+<div class="search_group">
+  <h2 class="titleMsg"> Search any company for their stock info</h2>
+    <form action="/stockResults">
+        <div class="form-group center">
+            <input type="text" name="stock_info" class="form-control" placeholder="stock name" required>
+        </div>
+        <div class="center"><button type="submit" class="btn btn-warning" id="search_btn">Get Results</button></div>
+    </form>
+</div>
+
+{% endblock %}

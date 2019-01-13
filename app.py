@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, render_template, request,flash, session,url_for,redirect
 
-from util import db #, user_info
+from util import db , info
 
 
 app = Flask(__name__)
@@ -23,7 +23,7 @@ def auth():
 	given_user = request.form["username"]
 	given_pwd = request.form["password"]
 	if db.auth_user(given_user, given_pwd):
-		session["uname"] = given_user
+		session["logged_in"] = given_user
 		return redirect(url_for("home"))
 	else:
 		flash("username or password is incorrect")
@@ -56,16 +56,37 @@ def add_user():
     db.add_user(request.args["user"], request.args["password"])
     session["logged_in"] = request.args["user"]
     return redirect(url_for("home"))
-'''
+
 #Logs the user out and removes session
 #returns to the page the user was on previously
 @app.route("/logout")
 def logout():
-	if session.get("uname"):
-		session.pop("uname")
+	if session.get("logged_in"):
+		session.pop("logged_in")
 		print(session)
 	return redirect(url_for("home"))
-'''
+
+@app.route("/stockResearch")
+def stockResearch():
+	return render_template("stockResearch.html", logged_in = True)
+
+@app.route("/stockResults")
+def stockResults():
+	search = " " + request.args["stock_info"].lower() + " "
+	companyCode = info.getSymbol(search)
+	if (companyCode == "NONE"):
+		print("bad search...")
+		flash ("No company of that name found...")
+		return redirect(url_for("stockResearch"))
+	#Each will hold a list with all the company info.
+	retval = {};
+	for each in companyCode:
+		print(each)
+		company_info = info.getStocks(each)
+		print(company_info)
+		retval[companyCode[each]] = company_info
+	return render_template("stockResults.html", logged_in = True, companyInfo = retval)
+
 if __name__ == "__main__":
     app.debug = True
     app.run()

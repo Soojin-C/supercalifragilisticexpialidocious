@@ -1,0 +1,15 @@
+{% extends "parent.html" %}
+
+{% block title %} Stock Results {% endblock %}
+
+{% block content %}
+
+<form action = "/stockResearch">
+  <div class="center"><button type="submit" class="btn btn-warning" id="back_btn">Back to search</button></div>
+</form>
+
+{% for each in companyInfo %}
+{{ each }} <br>
+{% endfor %}
+
+{% endblock %}

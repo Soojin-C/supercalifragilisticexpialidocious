@@ -79,8 +79,8 @@ def stockResults():
 	if "logged_in" in session:
 		retval = {}
 
-		if (request.args["stock_info"].find(".") != -1):
-			companyName = request.args["stock_info"]
+		if (request.args["stock_info"].find(".") == len(request.args["stock_info"]) - 1):
+			companyName = request.args["stock_info"].replace(" ", "|~|~|")
 			actualCompanyName = companyName.replace("|~|~|", " ").replace("and", "&")
 
 			companyCode = info.quickGetSymbol(actualCompanyName )
@@ -89,7 +89,7 @@ def stockResults():
 
 			watchlistYet = db.check_watchlist(session["logged_in"], actualCompanyName)
 					        #[companyNAme + search_that_led, TRUE/FALSE]
-			watchlist_info = [companyName + "{!{!!}!}" + request.args["stock_info"], watchlistYet]
+			watchlist_info = [companyName.replace("and", "&") + "{!{!!}!}" + companyName, watchlistYet]
 			#{Actual company name: [companyInfo, [companyName + search, T/F]]}
 			retval[actualCompanyName] = [company_info, watchlist_info]
 
@@ -162,7 +162,7 @@ def watchlist():
 			remove_data = each[0]. replace(" ", "|~|~|").replace("&", "and")
 			print("rmv: " + remove_data)
 			watchlist_data.append([each[0], remove_data])
-		return render_template("watchlist.html", watchlist = watchlist_data)
+		return render_template("watchlist.html", watchlist = watchlist_data, logged_in = True)
 	else:
 		flash ("Please login to view the watchlist")
 		return redirect(url_for("login"))

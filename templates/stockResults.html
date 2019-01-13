@@ -9,7 +9,17 @@
 </form>
 
 {% for each in companyInfo %}
-{{ each }} <br>
+{{ each }}
+  {% if not companyInfo[each][1][1] %}
+  <form action = "/changeWatchlist">
+    <div class="center"><button type="submit" class="btn btn-warning" id="add_btn" name = {{companyInfo[each][1][0]}} value = "Add to watchlist"> Add to Watchlist</button></div>
+  </form>
+  {% else %}
+  <form action = "/changeWatchlist">
+    <div class="center"><button type="submit" class="btn btn-warning" id="remove_btn" name = {{companyInfo[each][1][0]}} value = "Remove from watchlist"> Remove from Watchlist</button></div>
+  </form>
+  {% endif %}
+<br>
 {% endfor %}
 
 {% endblock %}

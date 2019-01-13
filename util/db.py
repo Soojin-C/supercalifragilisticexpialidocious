@@ -3,7 +3,7 @@ DB_FILE = "data/stock.db"
 
 def create_tables():
     """Creates tables for users' info, portfolios, users' stocks and watchlist"""
-    db = sqlite3.connect(DB_FILE)
+    db = sqlite3.connect("../" + DB_FILE)
     c = db.cursor()
     command = "CREATE TABLE user_info (username TEXT, password TEXT)"
     c.execute(command)
@@ -79,7 +79,7 @@ def add_watchlist(user, new_watchlist):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    if (check_exist(user, new_watchlist)):
+    if (check_watchlist(user, new_watchlist)):
         db.close()
         return False
     c.execute("INSERT INTO watchlist VALUES(?, ?)", (user, new_watchlist))
@@ -139,6 +139,18 @@ def get_stocks(user):
 
     db.commit()
     db.close()
+
+def check_watchlist(user, company_name):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    for each in c.execute("SELECT watchlist.stock_name FROM watchlist WHERE username = '{}'".format(user)):
+        if(each[0] == company_name):
+            db.close()
+            return True
+
+    db.close()
+    return False
 
 #create_tables()
 

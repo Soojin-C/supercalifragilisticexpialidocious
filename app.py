@@ -154,14 +154,18 @@ def removeWatchlist():
 
 @app.route("/watchlist")
 def watchlist():
-	watchlist_data = []
-	data = db.get_watchlist(session["logged_in"])
-	for each in data:
-		#each [stock_name]
-		remove_data = each[0]. replace(" ", "|~|~|").replace("&", "and")
-		print("rmv: " + remove_data)
-		watchlist_data.append([each[0], remove_data])
-	return render_template("watchlist.html", watchlist = watchlist_data)
+	if "logged_in" in session:
+		watchlist_data = []
+		data = db.get_watchlist(session["logged_in"])
+		for each in data:
+			#each [stock_name]
+			remove_data = each[0]. replace(" ", "|~|~|").replace("&", "and")
+			print("rmv: " + remove_data)
+			watchlist_data.append([each[0], remove_data])
+		return render_template("watchlist.html", watchlist = watchlist_data)
+	else:
+		flash ("Please login to view the watchlist")
+		return redirect(url_for("login"))
 
 if __name__ == "__main__":
     app.debug = True

@@ -11,9 +11,9 @@ app.secret_key=os.urandom(32)
 
 @app.route("/")
 def home():
-	if session.get("uname"):
-		return render_template("home.html")
-	return render_template("home.html",Title = 'Login')
+	if "logged_in" in session:
+		return render_template("home.html", user = session["logged_in"], logged_in = True)
+	return render_template("home.html",Title = 'Login', logged_in = False)
 
 #Authenticates user and adds session
 #Returns to the page the user was on previously(?)
@@ -28,6 +28,10 @@ def auth():
 	else:
 		flash("username or password is incorrect")
 		return redirect(url_for("home"))
+
+@app.route("/login")
+def login():
+	return render_template("login.html")
 
 #Sends the user to the register.html to register a new account
 @app.route("/register")

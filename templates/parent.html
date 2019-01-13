@@ -53,15 +53,19 @@
         </div>
       </li>
       <li class="nav-item active">
+        {% if not logged_in %}
         <div class="btn-group">
           <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Sign In
           </button>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Sign Up</a>
-            <a class="dropdown-item" href="#">Login</a>
+            <a class="dropdown-item" href="/register">Sign Up</a>
+            <a class="dropdown-item" href="/login">Login</a>
           </div>
         </div>
+        {% else %}
+        <div class="center"><a class="btn btn-warning" href="/logout" >Logout</a></div>
+        {% endif %}
       </li>
 
     </ul>

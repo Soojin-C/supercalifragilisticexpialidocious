@@ -17,6 +17,7 @@ def getSymbol(name):
     for comp in data:
         companyName = comp["name"].lower()
         companyName = companyName.replace(".", " ")
+        companyName = companyName.replace("&", "and")
         companyName = " " + companyName
         #print (companyName)
         symbols[companyName] = [comp["symbol"], comp["name"]]
@@ -31,6 +32,20 @@ def getSymbol(name):
     if (counter > 0):
         #print (retval)
         return retval
+    else:
+        return "NONE"
+
+def quickGetSymbol(name):
+    #    try:
+    iexUrl = request.Request("https://api.iextrading.com/1.0/ref-data/symbols", headers={'User-Agent': 'Mozilla/5.0'})
+    data = json.loads(request.urlopen(iexUrl).read())
+    symbols = {}
+    for comp in data:
+        #print (companyName)
+        symbols[comp["name"]] = comp["symbol"]
+
+    if name in symbols:
+        return symbols[name]
     else:
         return "NONE"
 

@@ -27,7 +27,7 @@ def auth():
 		return redirect(url_for("home"))
 	else:
 		flash("username or password is incorrect")
-		return redirect(url_for("home"))
+		return redirect(url_for("login"))
 
 @app.route("/login")
 def login():
@@ -68,37 +68,60 @@ def logout():
 
 @app.route("/stockResearch")
 def stockResearch():
-	return render_template("stockResearch.html", logged_in = True)
+	if "logged_in" in session:
+		return render_template("stockResearch.html", logged_in = True)
+	else:
+		flash("Please login to view Stock Research")
+		return redirect(url_for("login"))
 
 @app.route("/stockResults")
 def stockResults():
 	if "logged_in" in session:
-		search = " " + request.args["stock_info"].lower().replace("(&)", "") + " "
-		companyCode = info.getSymbol(search)
-		if (companyCode == "NONE"):
-			print("bad search...")
-			flash ("No company of that name found...")
-			return redirect(url_for("stockResearch"))
-		#Each will hold a list with all the company info.
 		retval = {}
 
-		for each in companyCode:
-			#print(each)
-			company_info = info.getStocks(each)
+		if (request.args["stock_info"].find(".") != -1):
+			companyName = request.args["stock_info"]
+			actualCompanyName = companyName.replace("|~|~|", " ").replace("and", "&")
+
+			companyCode = info.quickGetSymbol(actualCompanyName )
+			company_info = info.getStocks(companyCode)
 			#print(company_info)
 
-			companyName = companyCode[each].replace(" ", "|~|~|")
-			watchlistYet = db.check_watchlist(session["logged_in"], companyCode[each])
+			watchlistYet = db.check_watchlist(session["logged_in"], actualCompanyName)
 					        #[companyNAme + search_that_led, TRUE/FALSE]
 			watchlist_info = [companyName + "{!{!!}!}" + request.args["stock_info"], watchlistYet]
+			#{Actual company name: [companyInfo, [companyName + search, T/F]]}
+			retval[actualCompanyName] = [company_info, watchlist_info]
 
-			retval[companyCode[each]] = [company_info, watchlist_info]
+		else:
+			#print(request.args["stock_info"])
+			search = " " + request.args["stock_info"].lower().replace("|~|~|", " ").replace("&", "and") + " "
+			companyCode = info.getSymbol(search)
+			if (companyCode == "NONE"):
+				print("bad search...")
+				flash ("No company of that name found...")
+				return redirect(url_for("stockResearch"))
+				#Each will hold a list with all the company info.
+
+			for each in companyCode:
+				#print(each)
+				company_info = info.getStocks(each)
+				#print(company_info)
+
+				companyName = companyCode[each].replace(" ", "|~|~|")
+				watchlistYet = db.check_watchlist(session["logged_in"], companyCode[each])
+					        #[companyNAme + search_that_led, TRUE/FALSE]
+				watchlist_info = [companyName + "{!{!!}!}" + request.args["stock_info"].replace(" ", "|~|~|"), watchlistYet]
+
+				retval[companyCode[each]] = [company_info, watchlist_info]
 
 		return render_template("stockResults.html", logged_in = True, companyInfo = retval)
-	return redirect(url_for("home"))
+	else:
+		return redirect(url_for("login"))
+
 
 @app.route("/changeWatchlist", methods = ["GET", "POST"])
-def addWatchlist():
+def changeWatchlist():
 	print ("request.args: " )
 	print ( request.args )
 	print ( "\n ------------")
@@ -114,11 +137,31 @@ def addWatchlist():
 			db.add_watchlist(session["logged_in"], companyName)
 		if request.args[each] == "Remove from watchlist":
 			data = each.split("{!{!!}!}")
-			search = data[1]
+			search = data[1].replace("|~|~|", " ")
 			companyName = data[0].replace("|~|~|"," ")
 			db.remove_watchlist(session["logged_in"], companyName)
 	return redirect(url_for("stockResults", stock_info = search))
 
+@app.route("/removeWatchlist", methods = ["GET", "POST"])
+def removeWatchlist():
+
+	for each in request.args:
+		if request.args[each] == "Remove from watchlist":
+			data = each.split("{!{!!}!}")
+			companyName = data[0].replace("|~|~|"," ")
+			db.remove_watchlist(session["logged_in"], companyName)
+	return redirect(url_for("watchlist"))
+
+@app.route("/watchlist")
+def watchlist():
+	watchlist_data = []
+	data = db.get_watchlist(session["logged_in"])
+	for each in data:
+		#each [stock_name]
+		remove_data = each[0]. replace(" ", "|~|~|").replace("&", "and")
+		print("rmv: " + remove_data)
+		watchlist_data.append([each[0], remove_data])
+	return render_template("watchlist.html", watchlist = watchlist_data)
 
 if __name__ == "__main__":
     app.debug = True

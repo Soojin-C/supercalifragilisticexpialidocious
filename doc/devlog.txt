@@ -84,9 +84,15 @@ hasifA -- 2019-01-12 10:55
 --------------------------------------------------------------
 0. Fixed up the homepage and the login in system
 ==============================================================
-soojinC -- 2019-01-XX XX:XX
+soojinC -- 2019-01-12 11:34
 --------------------------------------------------------------
 0. Stock Research functionality basics completed.
+==============================================================
+soojinC -- 2019-01-13 7:36
+--------------------------------------------------------------
+0. Stock Research search functionality fixed
+1. Added to the db.py functions to support the stock research
+2. Has function to add and remove from a watchlist
 ==============================================================
 firstL -- 2019-01-XX XX:XX
 --------------------------------------------------------------

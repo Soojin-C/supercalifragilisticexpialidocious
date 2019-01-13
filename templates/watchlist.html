@@ -1,0 +1,14 @@
+{% extends "parent.html" %}
+
+{% block title %} Watchlist {% endblock %}
+
+{% block content %}
+
+{% for each in watchlist %}
+<a href = /stockResults?stock_info={{each[1]}}> {{ each[0] }} </a>
+<form action = "/removeWatchlist">
+  <div class="center"><button type="submit" class="btn btn-warning" id="remove_btn" name = {{each[1]}} value = "Remove from watchlist"> Remove from Watchlist</button></div>
+</form>
+{% endfor %}
+
+{% endblock %}

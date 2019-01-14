@@ -2,7 +2,7 @@ from urllib import request
 import json
 
 try:
-    with open('util/keys.json', 'r') as file:
+    with open('keys/keys.json', 'r') as file:
         api_dict = json.load(file)
 except:
 	print("keys.json not found. Please Look at README.md")

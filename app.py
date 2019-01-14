@@ -20,18 +20,26 @@ def home():
 
 @app.route("/auth", methods = ["GET", "POST"])
 def auth():
+	#print(request.args)
+	#print(request.form)
+	return_page = "home"
+
+	for each in request.form:
+		if request.form[each] == "Login":
+			return_page = each
+
 	given_user = request.form["username"]
 	given_pwd = request.form["password"]
 	if db.auth_user(given_user, given_pwd):
 		session["logged_in"] = given_user
-		return redirect(url_for("home"))
+		return redirect(url_for(return_page))
 	else:
 		flash("username or password is incorrect")
 		return redirect(url_for("login"))
 
 @app.route("/login")
 def login():
-	return render_template("login.html")
+	return render_template("login.html", type = "home")
 
 #Sends the user to the register.html to register a new account
 @app.route("/register")
@@ -72,7 +80,7 @@ def stockResearch():
 		return render_template("stockResearch.html", logged_in = True)
 	else:
 		flash("Please login to view Stock Research")
-		return redirect(url_for("login"))
+		return render_template("login.html", type = "stockResearch")
 
 @app.route("/stockResults")
 def stockResults():
@@ -117,7 +125,7 @@ def stockResults():
 
 		return render_template("stockResults.html", logged_in = True, companyInfo = retval)
 	else:
-		return redirect(url_for("login"))
+		return render_template("login.html", type = "stockResearch")
 
 
 @app.route("/changeWatchlist", methods = ["GET", "POST"])
@@ -144,11 +152,11 @@ def changeWatchlist():
 
 @app.route("/removeWatchlist", methods = ["GET", "POST"])
 def removeWatchlist():
-
+	print(request.args)
 	for each in request.args:
 		if request.args[each] == "Remove from watchlist":
 			data = each.split("{!{!!}!}")
-			companyName = data[0].replace("|~|~|"," ")
+			companyName = data[0].replace("|~|~|"," ").replace("and", "&")
 			db.remove_watchlist(session["logged_in"], companyName)
 	return redirect(url_for("watchlist"))
 
@@ -165,7 +173,7 @@ def watchlist():
 		return render_template("watchlist.html", watchlist = watchlist_data, logged_in = True)
 	else:
 		flash ("Please login to view the watchlist")
-		return redirect(url_for("login"))
+		return render_template("login.html", type = "watchlist")#redirect(url_for("login"))
 
 if __name__ == "__main__":
     app.debug = True

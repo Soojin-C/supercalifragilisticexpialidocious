@@ -27,6 +27,8 @@ def getSymbol(name):
     retval = {}
     counter = 0
     for each in symbols:
+        if counter > 10:
+            break
         if (each.find(name) != -1):
             # retval{symbol: name}
             retval[symbols[each][0]] = symbols[each][1]
@@ -60,6 +62,12 @@ def getStocks(symbol):
     data = json.loads(request.urlopen(iexUrl).read())
     return data["chart"]
 
+def getStockInfo(symbol):
+    name = symbol.lower()
+    iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" + name + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
+    data = json.loads(request.urlopen(iexUrl).read())
+    return data["quote"]
+
 '''
 Given a search query, will return a dictionary of snippets of the article and the url
 '''
@@ -80,4 +88,4 @@ def getArticles(query):
 	return articles
 
 #print(getStocks("Apple Inc."))
-print(getArticles("stock"))
+#print(getArticles("stock"))

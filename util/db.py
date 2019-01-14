@@ -131,7 +131,17 @@ def get_watchlist(user):
 
 
     db.close()
-# =====================================================================================
+
+def get_stocks(user):
+    """Remove the stock rmv_watchlist_name from the watchlist for user."""
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    ret_val = c.execute("SELECT user_stocks.stock_name, user_stocks.num_stocks, user_stocks.price_paid FROM user_stocks WHERE username = '{}'".format(user))
+
+    db.close()
+    return ret_val
+
 def remove_stock(user, rmv_stock_name):
     """Remove the stock rmv_stock_name when the user sells stocks."""
     db = sqlite3.connect(DB_FILE)
@@ -141,17 +151,8 @@ def remove_stock(user, rmv_stock_name):
 
     db.commit()
     db.close()
+# =====================================================================================
 
-
-def get_stocks(user):
-    """Remove the stock rmv_watchlist_name from the watchlist for user."""
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-
-    c.execute("DELETE FROM watchlist WHERE username = '{}' and stock_name = '{}'".format(user))
-
-    db.commit()
-    db.close()
 
 
 #create_tables()

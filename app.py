@@ -34,7 +34,7 @@ def auth():
 		session["logged_in"] = given_user
 		return redirect(url_for(return_page))
 	else:
-		flash("username or password is incorrect")
+		flash("Username or password is incorrect")
 		return redirect(url_for("login"))
 
 @app.route("/login")

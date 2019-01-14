@@ -4,33 +4,42 @@
 
 {% block content %}
 </br></br>
+
 <div class="container">
-  <div class="userInfo">
-    <!--Flashes errors if user/pass are wrong or blank -->
-    {% set msgs = get_flashed_messages() %}
-    {% for each in msgs %}
-    <div class="alert alert-danger" role="alert">{{each}}</div>
-    {% endfor %}
-    
-    <!--Able to login by submitting existing user/pass or make new account by pressing "register"-->
-    <form action="/auth" method="POST">
-      <div class="form-group">
-	<label class="control-label" for="username">Username</label>
-	<input type="text" name="username" class="form-control" id="username">
-      </div>
-      <div class="form-group">
-	<label class="control-label" for="password">Password</label>
-	<input type="password" name="password" class="form-control" id="password">
-      </div>
-      <div class="form-group">
-	<button type="submit" class="btn btn-danger col-sm-2" id="account" name = {{type}} value = "Login">Login</button>
-      </div>
-    </form>
-    
+  <div class="jumbotron">
+    <h1 class="text-center"> Login </h1>
+
     <br>
     
-    <p> Not a member? <a href="/register">Register</a> </p>
-    <div class="center"><a class="btn btn-danger" href="/" id="account">Return</a></div>
+    <div class="userInfo">
+      <!--Flashes errors if user/pass are wrong or blank -->
+      {% set msgs = get_flashed_messages() %}
+      {% for each in msgs %}
+      <div class="alert alert-danger" role="alert">{{each}}</div>
+      {% endfor %}
+      
+      <!--Able to login by submitting existing user/pass or make new account by pressing "register"-->
+      <form action="/auth" method="POST">
+	<div class="form-group">
+	  <label class="control-label" for="username">Username</label>
+	  <input type="text" name="username" class="form-control" id="username">
+	</div>
+	<div class="form-group">
+	  <label class="control-label" for="password">Password</label>
+	  <input type="password" name="password" class="form-control" id="password">
+	</div>
+	<div class="form-group">
+	  <button type="submit" class="btn btn-danger col-sm-2" id="account" name = {{type}} value = "Login">Login</button>
+	</div>
+      </form>
+      
+      <br>
+      
+      <p> Not a member? <a href="/register">Register</a> </p>
+      <div class="center">
+	<a class="btn btn-danger" href="/" id="account">Return</a>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

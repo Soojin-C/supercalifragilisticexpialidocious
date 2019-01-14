@@ -26,5 +26,5 @@ Two APIs are used in this project:
 * This API doesn't require an API key. The documentation on how to use the api is [here](https://iextrading.com/developer/docs/#getting-started)
 * Data provided for free by IEX. View IEX’s Terms of Use.
 ###### The New York Times
-* Some interesting info
-* Obtain an New York Times API key [here](some link)
+* Provides the articles for the article search
+* Obtain an New York Times API key [here](https://developer.nytimes.com/signup)

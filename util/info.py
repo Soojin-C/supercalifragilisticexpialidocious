@@ -2,10 +2,11 @@ from urllib import request
 import json
 
 try:
-    with open('api.json', 'r') as file:
+    with open('util/keys.json', 'r') as file:
         api_dict = json.load(file)
 except:
-    print("Missing api.json")
+	print("keys.json not found. Please Look at README.md")
+	quit()
 
 '''
 Given a search result, returns the company name if exists, otherwise returns "NONE"
@@ -63,7 +64,11 @@ def getStocks(symbol):
 Given a search query, will return a dictionary of snippets of the article and the url
 '''
 def getArticles(query):
-	nytKey = "95f8911151404fc184e49cb667928e8c"
+	try:
+		nytKey = api_dict["nyt"]
+	except:
+		print("MISSING NEW YORK TIMES API KEY")
+		quit()
 	search = query.lower()
 	nytUrl = request.Request("https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytKey + "&q=" +search, headers={'User-Agent': 'Mozilla/5.0'})
 	data = json.loads(request.urlopen(nytUrl).read())

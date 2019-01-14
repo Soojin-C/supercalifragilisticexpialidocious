@@ -1,17 +1,24 @@
 {% extends "parent.html" %}
 
-{% block title %} Stock Research {% endblock %}
+{% block title %} Stocks Search {% endblock %}
 
 {% block content %}
+<br><br>
 
-<div class="search_group">
-  <h2 class="titleMsg"> Search any company for their stock info</h2>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="text-center"> Stock Search </h1>
+
+    <br>
+    
     <form action="/stockResults">
-        <div class="form-group center">
-            <input type="text" name="stock_info" class="form-control" placeholder="stock name" required>
-        </div>
-        <div class="center"><button type="submit" class="btn btn-warning" id="search_btn">Get Results</button></div>
-    </form>
+      	<div class="form-group">
+	  <label class="control-label" for="stock_info">Stock Name</label>
+	  <input type="text" name="stock_info" class="form-control" id="Stock Name">
+	</div>
+	<div class="form-group">
+	  <button type="submit" class="btn btn-danger col-sm-2" id="search_btn">Search</button>
+	</div>
+  </div>
 </div>
-
 {% endblock %}

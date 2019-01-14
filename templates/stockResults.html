@@ -3,23 +3,32 @@
 {% block title %} Stock Results {% endblock %}
 
 {% block content %}
+</br></br>
 
-<form action = "/stockResearch">
-  <div class="center"><button type="submit" class="btn btn-warning" id="back_btn">Back to search</button></div>
-</form>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="text-center"> Stocks </h1>
 
-{% for each in companyInfo %}
-{{ each }}
-  {% if not companyInfo[each][1][1] %}
-  <form action = "/changeWatchlist">
-    <div class="center"><button type="submit" class="btn btn-warning" id="add_btn" name = {{companyInfo[each][1][0]}} value = "Add to watchlist"> Add to Watchlist</button></div>
-  </form>
-  {% else %}
-  <form action = "/changeWatchlist">
-    <div class="center"><button type="submit" class="btn btn-warning" id="remove_btn" name = {{companyInfo[each][1][0]}} value = "Remove from watchlist"> Remove from Watchlist</button></div>
-  </form>
-  {% endif %}
-<br>
-{% endfor %}
+    <br>
+    
+    <form action = "/stockResearch">
+      <div class="center">
+	<button type="submit" class="btn btn-danger" id="back_btn">Return</button>
+      </div>
+    </form>
 
+    {% for each in companyInfo %}
+    {{ each }}
+    <form action = "/changeWatchlist">
+      <div class="form-group">
+	{% if not companyInfo[each][1][1] %}
+	<button type="submit" class="btn btn-danger" id="add_btn" name = {{companyInfo[each][1][0]}} value = "Add to watchlist">Add to Watchlist</button>
+	{% else %}
+	<button type="submit" class="btn btn-danger" id="remove_btn" name = {{companyInfo[each][1][0]}} value = "Remove from watchlist">Remove from Watchlist</button>
+	{% endif %}
+      </div>
+    </form>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

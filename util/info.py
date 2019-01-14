@@ -1,11 +1,12 @@
 from urllib import request
 import json
 
-#try:
-#    with open('api.json', 'r') as file:
-#        api_dict = json.load(file)
-#except:
-#    print("Missing api.json")
+try:
+    with open('api.json', 'r') as file:
+        api_dict = json.load(file)
+except:
+    print("Missing api.json")
+
 '''
 Given a search result, returns the company name if exists, otherwise returns "NONE"
 '''
@@ -58,7 +59,20 @@ def getStocks(symbol):
     data = json.loads(request.urlopen(iexUrl).read())
     return data["chart"]
 
-
-
+'''
+Given a search query, will return a dictionary of snippets of the article and the url
+'''
+def getArticles(query):
+	nytKey = "95f8911151404fc184e49cb667928e8c"
+	search = query.lower()
+	nytUrl = request.Request("https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytKey + "&q=" +search, headers={'User-Agent': 'Mozilla/5.0'})
+	data = json.loads(request.urlopen(nytUrl).read())
+	articles = {}
+	response = data["response"]["docs"]
+	#return response
+	for article in response:
+		articles[article["snippet"]] = article["web_url"]
+	return articles
 
 #print(getStocks("Apple Inc."))
+print(getArticles("stock"))

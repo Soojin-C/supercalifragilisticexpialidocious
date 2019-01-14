@@ -13,6 +13,7 @@ Given a search result, returns the company name if exists, otherwise returns "NO
 '''
 def getSymbol(name):
     #    try:
+    print(name)
     iexUrl = request.Request("https://api.iextrading.com/1.0/ref-data/symbols", headers={'User-Agent': 'Mozilla/5.0'})
     data = json.loads(request.urlopen(iexUrl).read())
     symbols = {}
@@ -56,13 +57,13 @@ def quickGetSymbol(name):
 '''
 Given a valid IEX Trading company symbol, will return the stock information of the past 30 days.
 '''
-def getStocks(symbol):
+def getStocksInfo(symbol):
     name = symbol.lower()
     iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" + name + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
     data = json.loads(request.urlopen(iexUrl).read())
     return data["chart"]
 
-def getStockInfo(symbol):
+def getStocks(symbol):
     name = symbol.lower()
     iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" + name + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
     data = json.loads(request.urlopen(iexUrl).read())

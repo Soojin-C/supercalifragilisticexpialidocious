@@ -87,8 +87,8 @@ def stockResults():
 	if "logged_in" in session:
 		retval = {}
 
-		if (request.args["stock_info"].find(".") == len(request.args["stock_info"]) - 1):
-			companyName = request.args["stock_info"].replace(" ", "|~|~|")
+		if (request.args["stock_info"].find("{*}") != - 1):
+			companyName = request.args["stock_info"].replace(" ", "|~|~|").replace("{*}watchlist", "")
 			actualCompanyName = companyName.replace("|~|~|", " ").replace("and", "&")
 
 			companyCode = info.quickGetSymbol(actualCompanyName )
@@ -103,7 +103,7 @@ def stockResults():
 
 		else:
 			#print(request.args["stock_info"])
-			search = " " + request.args["stock_info"].lower().replace("|~|~|", " ").replace("&", "and") + " "
+			search = " " + request.args["stock_info"].lower().replace("|~|~|", " ").replace("&", "and").replace(".", " ") + " "
 			companyCode = info.getSymbol(search)
 			if (companyCode == "NONE"):
 				print("bad search...")

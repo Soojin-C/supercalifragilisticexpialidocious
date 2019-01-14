@@ -11,87 +11,98 @@
 
   <body>
 
-  {% block response %}
-      {% set messages = get_flashed_messages() %}
-        {% for message in messages %}
-          <p style = "color:red;" >{{message}}</p>
-        {% endfor %}
-  {% endblock %}
+    {% block response %}
+    {% set messages = get_flashed_messages() %}
+    {% for message in messages %}
+    <p style = "color:red;" >{{message}}</p>
+    {% endfor %}
+    {% endblock %}
 
 
-  {% block header %}
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Stock Overflow</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav nav-fill w-100">
-      <li class="nav-item active dropdown">
-        <div class="btn-group">
-          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            News
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Most Recent</a>
-            <a class="dropdown-item" href="#">Most Trending</a>
-          </div>
-        </div>
-      </li>
-      <li  class="nav-item active dropdown">
-        <div class="btn-group">
-          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Simulator
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Portfolio</a>
-            <a class="dropdown-item" href="#">Trade</a>
-            <a class="dropdown-item" href="#">Rankings</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/stockResearch">Stock Research</a>
-            <a class="dropdown-item" href="/watchlist">Watchlist</a>
-          </div>
-        </div>
-      </li>
-      <li class="nav-item active">
-        {% if not logged_in %}
-        <div class="btn-group">
-          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Sign In
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="/register">Sign Up</a>
-            <a class="dropdown-item" href="/login">Login</a>
-          </div>
-        </div>
-        {% else %}
-        <div class="center"><a class="btn btn-warning" href="/logout" >Logout</a></div>
-        {% endif %}
-      </li>
+    {% block header %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Stock Overflow</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+	<span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+	<ul class="navbar-nav nav-fill w-100">
+	  <li class="nav-item active dropdown">
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		News
+              </button>
+              <div class="dropdown-menu">
+		<a class="dropdown-item" href="#">Most Recent</a>
+		<a class="dropdown-item" href="#">Most Trending</a>
+              </div>
+            </div>
+	  </li>
+	  <li  class="nav-item active dropdown">
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		Simulator
+              </button>
+              <div class="dropdown-menu">
+		<a class="dropdown-item" href="#">Portfolio</a>
+		<a class="dropdown-item" href="#">Trade</a>
+		<a class="dropdown-item" href="#">Rankings</a>
+		<div class="dropdown-divider"></div>
+		<a class="dropdown-item" href="/stockResearch">Stock Research</a>
+		<a class="dropdown-item" href="/watchlist">Watchlist</a>
+              </div>
+            </div>
+	  </li>
+	  <li>
+	    <form class="form-inline my-2 my-lg-0">
+	      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+	      <button class="btn btn-danger" type="submit">Search</button>
+	    </form>
+	  </li>
+	  <li class="nav-item active">
+            {% if not logged_in %}
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		Sign In
+              </button>
+              <div class="dropdown-menu">
+		<a class="dropdown-item" href="/register">Sign Up</a>
+		<a class="dropdown-item" href="/login">Login</a>
+              </div>
+            </div>
+            {% else %}
+            <div class="center"><a class="btn btn-warning" href="/logout" >Logout</a></div>
+            {% endif %}
+	  </li>
+	</ul>
+      </div>
+    </nav>
+    {% endblock %}
 
-    </ul>
-  </div>
-</nav>
-  {% endblock %}
+    {% block content %}
+    
+    {% endblock %}
 
-
-  {% block content %}
-
-  {% endblock %}
-
-  {% block footer %}
-  <center>
-    &copy; Team Supercalifragilisticexplialidocious.<br>
-    Hasif Ahmed, Tania Cao, Soojin Choi, Shin Bamba
-  </center>
-  {% endblock %}
-
+    {% block footer %}
+    <footer class="page-footer" style="text-decoration: none;">
+      <center>
+	<div class="footer-copyright text-center py-3"> &copy 2019 Copyright: <a href="https://github.com/Soojin-C/supercalifragilisticexpialidocious"> Team Supercalifragilisticexplialidocious</a>
+	  <br> Team Members:
+	  <a href="https://github.com/HasifAhmed">Hasif Ahmed</a>, 
+	  <a href="https://github.com/taniacao12">Tania Cao</a>, 
+	  <a href="https://github.com/Soojin-C">Soojin Choi</a>, and 
+	  <a href="https://github.com/shinbamba">Shin Bamba</a>
+	</div>
+      </center>
+    </footer>
+    {% endblock %}
+    
       <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
   </body>
 </html>

@@ -1,0 +1,14 @@
+{% extends "parent.html" %}
+
+{% block title %} News {% endblock %}
+
+{% block content %}
+{% for name, link in articles %}
+<br><br>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="text-center"> <a href = "{{ link }}"> {{ name }} </a> </h1>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

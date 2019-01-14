@@ -1,34 +1,36 @@
-{% extends "basic.html" %}
+{% extends "parent.html" %}
 
 {% block title %} Register {% endblock %}
 
 {% block content %}
 <div class="userInfo">
-    <h3 class="titleMsg"> Welcome New User </h3>
+  <h3 class="titleMsg"> Welcome New User </h3>
 
-    {% set msgs = get_flashed_messages() %}<!--If input criteria aren't fullfilled upon submitting, flash errors -->
-    {% for each in msgs %}
-      <div class="alert alert-warning" role="alert">{{each}}</div>
-    {% endfor %}
+  <!--If input criteria aren't fullfilled upon submitting, flash errors -->
+  {% set msgs = get_flashed_messages() %}
+  {% for each in msgs %}
+  <div class="alert alert-warning" role="alert">{{each}}</div>
+  {% endfor %}
 
-    <form action="/adduser"><!--Post hides info from url. Makes sure user doesn't already exist & password matches confirm -->
-        <div class="form-group">
-            <label for="new_user">Username</label>
-            <input type="text" name="user" class="form-control" id="new_user" placeholder="username">
-        </div>
-        <div class="form-group">
-            <label for="new_pw">Password</label>
-            <input type="password" name="password" class="form-control" id="new_pw" placeholder="password">
-        </div>
-        <div class="form-group">
-            <label for="confirm_pw">Confirm Password</label>
-            <input type="password" name="confirm_password" class="form-control" id="confirm_pw" placeholder="password">
-        </div>
-        <div class="center"><button type="submit" class="btn btn-warning" id="account">Register</button></div>
-        <br>
-        <br>
-        <div class="center"><a class="btn btn-warning" href="/" id="account">Cancel</a></div>
-    </form>
+  <!--Post hides info from url. Makes sure user doesn't already exist & password matches confirm -->
+  <form action="/adduser">
+    <div class="form-group">
+      <label for="new_user">Username</label>
+      <input type="text" name="user" class="form-control" id="new_user" placeholder="username">
+    </div>
+    <div class="form-group">
+      <label for="new_pw">Password</label>
+      <input type="password" name="password" class="form-control" id="new_pw" placeholder="password">
+    </div>
+    <div class="form-group">
+      <label for="confirm_pw">Confirm Password</label>
+      <input type="password" name="confirm_password" class="form-control" id="confirm_pw" placeholder="password">
+    </div>
+    <div class="center"><button type="submit" class="btn btn-warning" id="account">Register</button></div>
+    <br>
+    <br>
+    <div class="center"><a class="btn btn-warning" href="/" id="account">Cancel</a></div>
+  </form>
 </div>
 
 {% endblock %}

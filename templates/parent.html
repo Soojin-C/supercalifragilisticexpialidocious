@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title> {% block title %}  {% endblock %} -|- SC  </title>
+    <title> SO | {% block title %}  {% endblock %} </title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   </head>
   {% endblock %}
@@ -18,63 +18,63 @@
     {% endfor %}
     {% endblock %}
 
-
     {% block header %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Stock Overflow</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-	<span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-	<ul class="navbar-nav nav-fill w-100">
-	  <li class="nav-item active dropdown">
-            <div class="btn-group">
-              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top">
+      <div class="container-fluid">
+	<div class="navbar-header">
+	  <a class="navbar-brand" href="#">Stock Overflow</a>
+	  <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+	  <span class="navbar-toggler-icon"></span>
+	  </button> -->
+	</div>
+	<div class="collapse navbar-collapse" id="navbarNavDropdown">
+	  <ul class="nav navbar-nav bd-navbar-nav flex-row">
+	    <li class="nav-item active dropdown">
+	      <a class="nav-link nav-link-dark dropdown-toggle" href="#" id="news" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		News
-              </button>
-              <div class="dropdown-menu">
+              </a>
+              <div class="dropdown-menu" aria-labelledby="news">
 		<a class="dropdown-item" href="#">Most Recent</a>
 		<a class="dropdown-item" href="#">Most Trending</a>
               </div>
-            </div>
-	  </li>
-	  <li  class="nav-item active dropdown">
-            <div class="btn-group">
-              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	    </li>
+	    <li class="nav-item active dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="simulator" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		Simulator
-              </button>
-              <div class="dropdown-menu">
+	      </a>
+              <div class="dropdown-menu" aria-labelledby="simulator">
 		<a class="dropdown-item" href="#">Portfolio</a>
 		<a class="dropdown-item" href="#">Trade</a>
 		<a class="dropdown-item" href="#">Rankings</a>
 		<div class="dropdown-divider"></div>
-		<a class="dropdown-item" href="/stockResearch">Stock Research</a>
+		<a class="dropdown-item" href="/stockResearch">Stocks</a>
 		<a class="dropdown-item" href="/watchlist">Watchlist</a>
               </div>
-            </div>
-	  </li>
-	  <li>
-	    <form class="form-inline my-2 my-lg-0">
-	      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-	      <button class="btn btn-danger" type="submit">Search</button>
-	    </form>
-	  </li>
-	  <li class="nav-item active">
+	    </li>
+	  </ul>
+	  <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+	    <li class="nav-item active">
+	      <form class="form-inline">
+		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+		<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+	      </form>
+	    </li>
             {% if not logged_in %}
-            <div class="btn-group">
-              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		Sign In
-              </button>
-              <div class="dropdown-menu">
-		<a class="dropdown-item" href="/register">Sign Up</a>
+	    <li class="nav-item active dropdown">
+	      <a class="nav-link dropdown-toggle" href="#" id="login" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		User
+	      </a>
+              <div class="dropdown-menu" aria-labelledby="login">
 		<a class="dropdown-item" href="/login">Login</a>
+		<a class="dropdown-item" href="/register">Register</a>
               </div>
-            </div>
-            {% else %}
-            <div class="center"><a class="btn btn-warning" href="/logout" >Logout</a></div>
-            {% endif %}
-	  </li>
-	</ul>
+              {% else %}
+            <li class="nav-item active">
+	      <div class="center"><a class="btn btn-black" href="/logout" >Logout</a></div>
+              {% endif %}
+	    </li>
+	  </ul>
+	</div>
       </div>
     </nav>
     {% endblock %}
@@ -97,12 +97,12 @@
     </footer>
     {% endblock %}
     
-      <!-- Optional JavaScript -->
-      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
   </body>
 </html>

@@ -15,9 +15,9 @@
       </tr>
     </thead>
     <tbody>
-      {% for each in watchlist %}	
+      {% for each in watchlist %}
       <th> <a href="/stockResults?stock_info={{each[1]}}{*}watchlist"> {{ each[0]["companyName"] }} </a> </th>
-      <td> {{ each[0]["realtimePrice"] }} </td>
+      <td> {{ each[0]["latestPrice"] }} </td>
       <td> {{ each[0]["low"] }} </td>
       <td> {{ each[0]["high"] }} </td>
       <td> {{ each[0]["latestVolume"] }} </td>

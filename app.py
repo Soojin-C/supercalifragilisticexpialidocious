@@ -165,12 +165,9 @@ def removeWatchlist():
 @app.route("/watchlist")
 def watchlist():
 	if "logged_in" in session:
-		watchlist_data = []
-		data = db.get_watchlist(session["logged_in"])
-		for each in data:
-			companyCode = each[0]
-			companyInfo = info.getStocks(companyCode.lower())
-			watchlist_data.append([companyInfo, companyCode])
+		watchlist_data = db.get_watchlist(session["logged_in"])
+		for each in watchlist_data:
+			each[0] = info.getStocks(each[1].lower())
 		return render_template("watchlist.html", watchlist = watchlist_data, title = "Watchlist", heading = "Watchlist", logged_in = True)
 	else:
 		flash ("Please login to view Watchlist")

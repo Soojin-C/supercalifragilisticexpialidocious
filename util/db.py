@@ -141,9 +141,14 @@ def get_watchlist(user):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
+    watchlist_data = []
     ret_val = c.execute("SELECT watchlist.stock_name FROM watchlist WHERE username = '{}'".format(user))
+    for each in ret_val:
+        companyCode = each[0]
+        watchlist_data.append([0, companyCode])
+
     db.close()
-    return ret_val
+    return watchlist_data
 
 def get_portfolio(user):
     """Gets all the watchlist stocks for the user."""

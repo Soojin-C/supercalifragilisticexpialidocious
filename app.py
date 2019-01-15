@@ -200,7 +200,14 @@ def rankings():
 		flash("Please login to view Rankings")
 		return render_template("login.html", title = "Login", heading = "Login")
 
-
+@app.route("/portfolio")
+def portfolio():
+	if "logged_in" in session:
+		return render_template("portfolio.html", title = "Portfolio", heading = "Portfolio", logged_in = True)
+	else:
+		flash("Please login to view Portfolio")
+		return render_template("login.html", title = "Login", heading = "Login")
+	
 if __name__ == "__main__":
     app.debug = True
     app.run()

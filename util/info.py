@@ -67,6 +67,9 @@ def getStocksInfo(symbol):
 	data = json.loads(request.urlopen(iexUrl).read())
 	return data["chart"]
 
+'''
+Given a valid IEX Trading company symbol, will return the stock information of currently.
+'''
 def getStocks(symbol):
 	name = symbol.lower()
 	try:

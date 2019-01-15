@@ -1,18 +1,36 @@
 {% extends "parent.html" %}
 
 {% block content %}
-<table>
-  <tr>
-    <th>Rank</th>
-    <th>User</th>
-    <th>Account Value</th>
-  </tr>
-  {% for each in ranks %}
-  <tr>
-    <th>each</th>
-    <th>each</th>
-    <th>accvals[each]</th>
-  </tr>
-  {% endfor %}
-</table>
+<div class="table-responsive">
+  <table class="table table-hover text-center">
+    <thead>
+      <tr class="bg-danger text-white">
+	<th>Rank</th>
+	<th>User</th>
+	<th>Account Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- DELETE ONCE THE FOR LOOP WORKS -->
+      <tr>
+	<th> num {{ each }}</th>
+	<td> name </td>
+	<td> val </td>
+      </tr>
+      <tr>
+	<th> num {{ each }}</th>
+	<td> name </td>
+	<td> val </td>
+      </tr>
+      <!-- ------------------------------ -->
+      {% for each in order %}
+      <tr>
+	<th> num {{ each }}</th>
+	<td>{{ each }}</td>
+	<td>{{ values[each] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

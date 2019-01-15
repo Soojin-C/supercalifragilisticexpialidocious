@@ -5,6 +5,7 @@ Hasif Ahmed, Shin Bamba, Tania Cao, Soojin Choi(PM)
 ## Stock Overflow
 
 ### Project Overview
+Stock Overflow is a website focusing on investment and financing education. Users will be able to read articles revelvant to the financial world and view information on a wide range of stocks. Users can take part in a simulation game where they have an initial buying power of $100, 000. With that money, they will be able to purchase or sell stocks. If the user is interested in certain stocks, they may add them to the watchlist to keep track of them. 
 
 ### Launch Instructions
 #### Running Flask App
@@ -15,9 +16,11 @@ Hasif Ahmed, Shin Bamba, Tania Cao, Soojin Choi(PM)
    * Make a venv by running `$ python3 -m venv VENV_NAME`
    * Activate it by running `$ . ~/path_to_venv/VENV_NAME/bin/activate`
    * Deactivate it by running `$ deactivate`
-5. Install Flask and wheel with `$ pip3 install flask` and `$ pip3 install wheel` (this is a Flask application)
-6. In the root of the directory, run `$ python app.py`. Make sure your virtual enviornment is actvated
-7. Launch the root route (http://127.0.0.1:5000/) in your browser.
+5. Activate your virtual environment. 
+6. In the root of the directory, run `$ pip install -r requirements.txt`
+7. To obtain API keys, look below for the instructions. Insert the obtained New York Times key into the file keys.json. 
+8. Now you are ready to run the flask app. Run the command `$ python app.py`. (Make sure your virtual enviornment is actvated)
+9. Launch the root route (http://127.0.0.1:5000/) in your browser.
 
 #### API information
 Two APIs are used in this project:
@@ -27,4 +30,6 @@ Two APIs are used in this project:
 * Data provided for free by IEX. View IEX’s Terms of Use.
 ###### The New York Times
 * Provides the articles for the article search
-* Obtain an New York Times API key [here](https://developer.nytimes.com/signup)
+* Obtain an New York Times API key [here](https://developer.nytimes.com/signup) Please select the API to Article Search API.
+* Place the key to replace the "nyt key here" in the keys.json file,, which is in the keys directory.
+

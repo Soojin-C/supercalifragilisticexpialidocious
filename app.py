@@ -38,7 +38,7 @@ def auth():
 
 @app.route("/login")
 def login():
-	return render_template("login.html", title = "Login", heading = "Login")
+	return render_template("login.html", title = "Login", heading = "Login", type = "home")
 
 #Sends the user to the register.html to register a new account
 @app.route("/register")
@@ -61,6 +61,7 @@ def add_user():
         return redirect(url_for("register"))
 
     db.add_user(request.args["user"], request.args["password"])
+    db.add_profile(request.args["user"], 100000, 100000, 100000, 0.00)
     session["logged_in"] = request.args["user"]
     return redirect(url_for("home"))
 
@@ -79,7 +80,7 @@ def stockResearch():
 		return render_template("stockResearch.html", title = "Stock Search", heading = "Stock Search", logged_in = True)
 	else:
 		flash("Please login to view Stock Research")
-		return render_template("login.html", title = "Login", heading = "Login")
+		return render_template("login.html", title = "Login", heading = "Login", type = "stockResearch")
 
 @app.route("/stockResults")
 def stockResults():
@@ -125,7 +126,7 @@ def stockResults():
 
 		return render_template("stockResults.html", title = "Stock Results", heading = "Stock Results", logged_in = True, companyInfo = retval)
 	else:
-		return render_template("login.html", title = "Stock Results", heading = "Stock Results")
+		return render_template("login.html", title = "Stock Results", heading = "Stock Results", type = "stockResearch")
 
 # Depending on the current status, either adds or removes from the watchlist
 # Returns to the original search page.
@@ -173,7 +174,7 @@ def watchlist():
 		return render_template("watchlist.html", watchlist = watchlist_data, title = "Watchlist", heading = "Watchlist", logged_in = True)
 	else:
 		flash ("Please login to view Watchlist")
-		return render_template("login.html", title = "Login", heading = "Login")#redirect(url_for("login"))
+		return render_template("login.html", title = "Login", heading = "Login", type = "watchlist")#redirect(url_for("login"))
 
 @app.route("/articles")
 def articles():
@@ -198,16 +199,18 @@ def rankings():
 		return render_template("rankings.html", order = ranks, values = accvals, title = "Rankings", heading = "Rankings", logged_in = True)
 	else:
 		flash("Please login to view Rankings")
-		return render_template("login.html", title = "Login", heading = "Login")
+		return render_template("login.html", title = "Login", heading = "Login", type = "rankings")
 
 @app.route("/portfolio")
 def portfolio():
 	if "logged_in" in session:
-		return render_template("portfolio.html", title = "Portfolio", heading = "Portfolio", logged_in = True)
+		data = db.get_portfolio(session["logged_in"])
+		print(data)
+		return render_template("portfolio.html", title = "Portfolio", heading = "Portfolio", portfolio_data = data, logged_in = True)
 	else:
 		flash("Please login to view Portfolio")
-		return render_template("login.html", title = "Login", heading = "Login")
-	
+		return render_template("login.html", title = "Login", heading = "Login", type = "portfolio")
+
 if __name__ == "__main__":
     app.debug = True
     app.run()

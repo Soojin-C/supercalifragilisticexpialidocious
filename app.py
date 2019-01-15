@@ -4,7 +4,6 @@ from flask import Flask, render_template, request,flash, session,url_for,redirec
 
 from util import db , info
 
-
 app = Flask(__name__)
 
 app.secret_key=os.urandom(32)
@@ -12,8 +11,8 @@ app.secret_key=os.urandom(32)
 @app.route("/")
 def home():
 	if "logged_in" in session:
-		return render_template("home.html", user = session["logged_in"], logged_in = True)
-	return render_template("home.html",Title = 'Login', logged_in = False)
+		return render_template("home.html", title = "Home", heading = "Home", user = session["logged_in"], logged_in = True)
+	return render_template("home.html", title = "Home", heading = "Home", user = "User", logged_in = False)
 
 #Authenticates user and adds session
 #Returns to the page the user was on previously(?)
@@ -39,12 +38,12 @@ def auth():
 
 @app.route("/login")
 def login():
-	return render_template("login.html", type = "home")
+	return render_template("login.html", title = "Login", heading = "Login")
 
 #Sends the user to the register.html to register a new account
 @app.route("/register")
 def register():
-	return render_template("register.html")
+	return render_template("register.html", title = "Register", heading = "Register")
 
 #Attempts to add the user to the database
 @app.route("/adduser")
@@ -77,10 +76,10 @@ def logout():
 @app.route("/stockResearch")
 def stockResearch():
 	if "logged_in" in session:
-		return render_template("stockResearch.html", logged_in = True)
+		return render_template("stockResearch.html", title = "Stock Search", heading = "Stock Search", logged_in = True)
 	else:
 		flash("Please login to view Stock Research")
-		return render_template("login.html", type = "stockResearch")
+		return render_template("login.html", title = "Login", heading = "Login")
 
 @app.route("/stockResults")
 def stockResults():
@@ -111,7 +110,7 @@ def stockResults():
 			if (companyCode == "NONE"):
 				print("bad search...")
 				flash ("No company of that name found...")
-				return redirect(url_for("stockResearch"))
+				return redirect(url_for("stockResearch"), title = "Stock Results", heading = "Stock Results")
 				#Each will hold a list with all the company info.
 
 			for each in companyCode:
@@ -126,9 +125,9 @@ def stockResults():
 
 				retval[companyCode[each]] = [company_info, watchlist_info]
 
-		return render_template("stockResults.html", logged_in = True, companyInfo = retval)
+		return render_template("stockResults.html", title = "Stock Results", heading = "Stock Results", logged_in = True, companyInfo = retval)
 	else:
-		return render_template("login.html", type = "stockResearch")
+		return render_template("login.html", title = "Stock Results", heading = "Stock Results")
 
 
 @app.route("/changeWatchlist", methods = ["GET", "POST"])
@@ -173,10 +172,10 @@ def watchlist():
 			remove_data = each[0]. replace(" ", "|~|~|").replace("&", "and")
 			print("rmv: " + remove_data)
 			watchlist_data.append([each[0], remove_data])
-		return render_template("watchlist.html", watchlist = watchlist_data, logged_in = True)
+		return render_template("watchlist.html", watchlist = watchlist_data, title = "Watchlist", heading = "Watchlist", logged_in = True)
 	else:
 		flash ("Please login to view the watchlist")
-		return render_template("login.html", type = "watchlist")#redirect(url_for("login"))
+		return render_template("login.html", title = "Login", heading = "Login")#redirect(url_for("login"))
 
 
 @app.route("/articles")
@@ -184,9 +183,9 @@ def articles():
 	print(request.form)
 	dict= info.getArticles(request.args["article_search"])
 	if "logged_in" in session:
-		return render_template("news.html", articles = dict, logged_in= True)
+		return render_template("news.html", title = "Article Results", heading = "Article Results", articles = dict, logged_in= True)
 	else:
-		return render_template("news.html", articles = dict, logged_in= False)
+		return render_template("news.html", title = "Article Results", heading = "Article Results", articles = dict, logged_in= False)
 
 @app.route("/rankings")
 def rankings():
@@ -199,10 +198,10 @@ def rankings():
 			ranks[i] = username
 			accvals[username] = accval
 			i = i + 1
-		return render_template("rankings.html", order = ranks, values = accvals, logged_in = True)
+		return render_template("rankings.html", order = ranks, values = accvals, title = "Rankings", heading = "Rankings", logged_in = True)
 	else:
 		flash("Please login to view Rankings")
-		return render_template("login.html", type = "rankings")
+		return render_template("login.html", title = "Login", heading = "Login")
 
 
 if __name__ == "__main__":

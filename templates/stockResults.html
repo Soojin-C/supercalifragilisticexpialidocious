@@ -1,16 +1,6 @@
 {% extends "parent.html" %}
 
-{% block title %} Stock Results {% endblock %}
-
 {% block content %}
-</br></br>
-
-<div class="container">
-  <div class="jumbotron">
-    <h1 class="text-center"> Stocks </h1>
-
-    <br>
-
     <form action = "/stockResearch">
       <div class="center">
 	<button type="submit" class="btn btn-danger" id="back_btn">Return</button>
@@ -37,6 +27,4 @@ Yield: {{ companyInfo[each][0]["ytdChange"] }} <br>
       </div>
     </form>
     {% endfor %}
-  </div>
-</div>
 {% endblock %}

@@ -1,28 +1,16 @@
 {% extends "parent.html" %}
 
-{% block title %} Watchlist {% endblock %}
-
 {% block content %}
-</br></br>
+{% for each in watchlist %}
+<p>
 
-<div class="container">
-  <div class="jumbotron">
-    <h1 class="text-center"> Watchlist </h1>
+  <a href="/stockResults?stock_info={{each[1]}}{*}watchlist"> {{ each[0] }} </a>
 
-    <br>
-
-    {% for each in watchlist %}
-    <p>
-
-      <a href="/stockResults?stock_info={{each[1]}}{*}watchlist"> {{ each[0] }} </a>
-
-      <form action = "/removeWatchlist">
-	<div class="form-group">
-	  <button type="submit" class="btn btn-danger" id="remove_btn" name = {{each[1]}} value = "Remove from watchlist">Remove from Watchlist</button>
-	</div>
-      </form>
-    </p>
-    {% endfor %}
-  </div>
-</div>
+  <form action = "/removeWatchlist">
+    <div class="form-group">
+      <button type="submit" class="btn btn-danger" id="remove_btn" name = {{each[1]}} value = "Remove from watchlist">Remove from Watchlist</button>
+    </div>
+  </form>
+</p>
+{% endfor %}
 {% endblock %}

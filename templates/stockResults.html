@@ -10,7 +10,7 @@
     <h1 class="text-center"> Stocks </h1>
 
     <br>
-    
+
     <form action = "/stockResearch">
       <div class="center">
 	<button type="submit" class="btn btn-danger" id="back_btn">Return</button>
@@ -18,7 +18,15 @@
     </form>
 
     {% for each in companyInfo %}
-    {{ each }}
+
+    <h2> {{ each }} </h2><br>
+
+<b> Latest Price: {{ companyInfo[each][0]["iexRealtimePrice"] }} </b> <br>
+Low:{{ companyInfo[each][0]["low"] }} <br>
+High: {{ companyInfo[each][0]["high"] }} <br>
+Volume : [ {{ companyInfo[each][0]["latestVolume"] }} ] <br>
+Yield: {{ companyInfo[each][0]["ytdChange"] }} <br>
+
     <form action = "/changeWatchlist">
       <div class="form-group">
 	{% if not companyInfo[each][1][1] %}

@@ -86,6 +86,9 @@ def stockResearch():
 def stockResults():
 	if "logged_in" in session:
 		retval = {}
+		if (request.args["stock_info"] == ""):
+			flash ("Please enter a company name")
+			return (redirect(url_for("stockResearch")))
 
 		if (request.args["stock_info"].find("{*}") != - 1):
 			companyName = request.args["stock_info"].replace(" ", "|~|~|").replace("{*}watchlist", "")

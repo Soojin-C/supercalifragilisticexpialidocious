@@ -1,21 +1,38 @@
 {% extends "parent.html" %}
 
 {% block content %}
-{% for each in watchlist %}
-<p>
-
-  <a href="/stockResults?stock_info={{each[1]}}{*}watchlist"> {{ each[0]["companyName"] }} </a> <br>
-  <b> Latest Price: {{ each[0]["iexRealtimePrice"] }} </b> <br>
-  Low:{{ each[0]["low"] }} <br>
-  High: {{ each[0]["high"] }} <br>
-  Volume : [ {{ each[0]["latestVolume"] }} ] <br>
-  Yield: {{ each[0]["ytdChange"] }} <br>
-
-  <form action = "/removeWatchlist">
-    <div class="form-group">
-      <button type="submit" class="btn btn-danger" id="remove_btn" name = {{each[1]}} value = "Remove from watchlist">Remove from Watchlist</button>
-    </div>
-  </form>
-</p>
-{% endfor %}
+<div class="table-responsive">
+  <table class="table table-hover text-center">
+    <thead>
+      <tr class="bg-danger text-white">
+	<th>Company</th>
+	<th>Latest Price</th>
+	<th>Low</th>
+	<th>High</th>
+	<th>Volume</th>
+	<th>Yield</th>
+	<th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for each in watchlist %}
+      <tr>
+	<th> <a href="/stockResults?stock_info={{each[1]}}{*}watchlist"> {{ each[0]["companyName"] }} </a> </th>
+	<td> {{ each[0]["iexRealtimePrice"] }} </td>
+	<td> {{ each[0]["low"] }} </td>
+	<td> {{ each[0]["high"] }} </td>
+	<td> {{ each[0]["latestVolume"] }} </td>
+	<td> {{ each[0]["ytdChange"] }}% </td>
+	<td>
+	  <form action = "/removeWatchlist">
+	    <div class="form-group">
+	      <button type="submit" class="btn btn-outline-danger btn-sm" id="remove_btn" name = {{each[1]}} value = "Remove from watchlist">Remove from Watchlist</button>
+	    </div>
+	  </form>
+	</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

@@ -150,7 +150,9 @@ def get_portfolio(user):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    ret_val = c.execute("SELECT * FROM portfolio WHERE username = '{}'".format(user))
+    data = c.execute("SELECT * FROM portfolio WHERE username = '{}'".format(user))
+    for each in data:
+        ret_val = each
     db.close()
     return ret_val
 

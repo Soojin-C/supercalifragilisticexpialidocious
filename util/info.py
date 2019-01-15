@@ -58,16 +58,24 @@ def quickGetSymbol(name):
 Given a valid IEX Trading company symbol, will return the stock information of the past 30 days.
 '''
 def getStocksInfo(symbol):
-    name = symbol.lower()
-    iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" + name + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
-    data = json.loads(request.urlopen(iexUrl).read())
-    return data["chart"]
+	name = symbol.lower()
+	try:
+		iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" + name + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
+	except:
+		print("Problems with IEX Trading API. API may be broken")
+		quit()
+	data = json.loads(request.urlopen(iexUrl).read())
+	return data["chart"]
 
 def getStocks(symbol):
-    name = symbol.lower()
-    iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" + name + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
-    data = json.loads(request.urlopen(iexUrl).read())
-    return data["quote"]
+	name = symbol.lower()
+	try:
+		iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" + name + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
+	except:
+		print("Problems with IEX Trading API. API may be broken")
+		quit()
+	data = json.loads(request.urlopen(iexUrl).read())
+	return data["quote"]
 
 '''
 Given a search query, will return a dictionary of snippets of the article and the url

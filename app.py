@@ -178,7 +178,8 @@ def watchlist():
 
 @app.route("/articles")
 def articles():
-	dict= info.getArticles("stock")
+	print(request.form)
+	dict= info.getArticles(request.args["article_search"])
 	if "logged_in" in session:
 		return render_template("news.html", articles = dict, logged_in= True)
 	else:

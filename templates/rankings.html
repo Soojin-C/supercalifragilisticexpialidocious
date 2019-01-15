@@ -11,23 +11,11 @@
       </tr>
     </thead>
     <tbody>
-      <!-- DELETE ONCE THE FOR LOOP WORKS -->
-      <tr>
-	<th> num {{ each }}</th>
-	<td> name </td>
-	<td> val </td>
-      </tr>
-      <tr>
-	<th> num {{ each }}</th>
-	<td> name </td>
-	<td> val </td>
-      </tr>
-      <!-- ------------------------------ -->
       {% for each in order %}
       <tr>
-	<th> num {{ each }}</th>
-	<td>{{ each }}</td>
-	<td>{{ values[each] }}</td>
+	<th> {{ each }} </th>
+	<td> {{ order[each][0] }} </td>
+	<td> {{ order[each][1] }}</td>
       </tr>
       {% endfor %}
     </tbody>

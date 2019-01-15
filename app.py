@@ -186,14 +186,12 @@ def articles():
 def rankings():
 	dict = db.rankings()
 	ranks = {}
-	accvals = {}
 	if "logged_in" in session:
 		i = 1;
 		for username, accval in dict:
-			ranks[i] = username
-			accvals[username] = accval
+			ranks[i] = [username,accval]
 			i = i + 1
-		return render_template("rankings.html", order = ranks, values = accvals, title = "Rankings", heading = "Rankings", logged_in = True)
+		return render_template("rankings.html", order = ranks, title = "Rankings", heading = "Rankings", logged_in = True)
 	else:
 		flash("Please login to view Rankings")
 		return render_template("login.html", title = "Login", heading = "Login", type = "rankings")

@@ -68,7 +68,8 @@ def add_profile(user, new_account_val, new_buying_power, new_cash, new_annual_re
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    rmv_user(user)
+    if (check_portfolio(user)):
+        rmv_user(user)
     c.execute("INSERT INTO portfolio VALUES(?, ?, ?, ?, ?)", (user, new_account_val, new_buying_power, new_cash, new_annual_ret))
 
     db.commit()
@@ -87,6 +88,19 @@ def add_watchlist(user, new_watchlist):
     db.commit()
     db.close()
     return True
+
+def check_portfolio(user):
+    """Check to see if the user is already in the portfolio."""
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    for each in c.execute("SELECT portfolio.username FROM portfolio WHERE username = '{}'".format(user)):
+        if(each[0] == user):
+            db.close()
+            return True
+
+    db.close()
+    return False
 
 def rmv_user(user):
     """Remove the portfolio info of user"""
@@ -127,10 +141,18 @@ def get_watchlist(user):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    return c.execute("SELECT watchlist.stock_name FROM watchlist WHERE username = '{}'".format(user))
-
-
+    ret_val = c.execute("SELECT watchlist.stock_name FROM watchlist WHERE username = '{}'".format(user))
     db.close()
+    return ret_val
+
+def get_portfolio(user):
+    """Gets all the watchlist stocks for the user."""
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    ret_val = c.execute("SELECT * FROM portfolio WHERE username = '{}'".format(user))
+    db.close()
+    return ret_val
 
 def get_stocks(user):
     """Remove the stock rmv_watchlist_name from the watchlist for user."""

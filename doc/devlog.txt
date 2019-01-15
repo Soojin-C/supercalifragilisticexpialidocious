@@ -93,14 +93,35 @@ soojinC -- 2019-01-13 7:36
 0. Stock Research search functionality fixed
 1. Added to the db.py functions to support the stock research
 2. Has function to add and remove from a watchlist
+3. README updates for Monday
 ==============================================================
 shinB -- 2019-01-13 20:34
 --------------------------------------------------------------
 0. added getArticles
 ==============================================================
+taniaC -- 2019-01-13 21:28
+--------------------------------------------------------------
+0. Fixed the navbar design
+1. Added searchbar
+2. Edited login, register and all simulator html pages with css.
+==============================================================
+hasifA taniaC shinB soojinC -- 2019-01-14 13:42
+--------------------------------------------------------------
+0. Created the html page for article search
+1. Edited the html file css
+2. Testing the basic functionality of all functions on website
+==============================================================
 shinB -- 2019-01-14 21:12
 --------------------------------------------------------------
 0. fixed article functionality. Users can now search of articles from companies
+==============================================================
+hasifA -- 2019-01-14 22:34
+--------------------------------------------------------------
+0. Completed ranking functionality
+==============================================================
+soojinC -- 2019-01-14 23:02
+--------------------------------------------------------------
+0. Reworked search and watchlist to use company code rather than company name.
 ==============================================================
 firstL -- 2019-01-XX XX:XX
 --------------------------------------------------------------

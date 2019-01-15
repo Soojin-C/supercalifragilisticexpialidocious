@@ -151,6 +151,17 @@ def remove_stock(user, rmv_stock_name):
 
     db.commit()
     db.close()
+
+def rankings():
+    """Retrieve rankings,"""
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    accounts = c.execute("SELECT portfolio.username, portfolio.account_val FROM portfolio")
+
+    return accounts
+    db.commit()
+    db.close()
 # =====================================================================================
 
 

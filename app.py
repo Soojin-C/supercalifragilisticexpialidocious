@@ -185,6 +185,22 @@ def articles():
 	else:
 		return render_template("news.html", articles = dict, logged_in= False)
 
+@app.route("/rankings")
+def rankings():
+	dict = db.rankings()
+	ranks = {}
+	accvals = {}
+	if "logged_in" in session:
+		i = 1;
+		for username, accval in dict:
+			ranks[i] = username
+			accvals[username] = accval
+			i = i + 1
+		return render_template("rankings.html", order = ranks, values = accvals, logged_in = True)
+	else:
+		flash("Please login to view Rankings")
+		return render_template("login.html", type = "rankings")
+
 
 if __name__ == "__main__":
     app.debug = True

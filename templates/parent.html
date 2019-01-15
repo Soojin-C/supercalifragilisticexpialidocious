@@ -25,17 +25,14 @@
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 	  <span class="navbar-toggler-icon"></span>
 	</button>
-	
+
 	<div class="collapse navbar-collapse" id="navbarNavDropdown">
 	  <ul class="nav navbar-nav bd-navbar-nav flex-row">
 	    <li class="nav-item dropdown active mx-2">
-	      <a class="nav-link nav-link-dark dropdown-toggle" href="#" id="news" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	      <a class="nav-link nav-link-dark " href="/articles" id="news" role="button" aria-expanded="false">
 		News
               </a>
-              <div class="dropdown-menu bg-danger" aria-labelledby="news">
-		<a class="dropdown-item" href="#">Most Recent</a>
-		<a class="dropdown-item" href="#">Most Trending</a>
-              </div>
+
 	    </li>
 	    <li class="nav-item dropdown active mx-2">
               <a class="nav-link dropdown-toggle" href="#" id="simulator" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -44,7 +41,7 @@
               <div class="dropdown-menu bg-danger" aria-labelledby="simulator">
 		<a class="dropdown-item" href="#">Portfolio</a>
 		<a class="dropdown-item" href="#">Trade</a>
-		<a class="dropdown-item" href="#">Rankings</a>
+		<a class="dropdown-item" href="/rankings">Rankings</a>
 		<div class="dropdown-divider color-white"></div>
 		<a class="dropdown-item" href="/stockResearch">Stocks</a>
 		<a class="dropdown-item" href="/watchlist">Watchlist</a>
@@ -54,7 +51,7 @@
 	  <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
 	    <li class="nav-item active mx-2">
 	      <form class="form-inline" action = "/articles">
-		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="article_search">
+		<input class="form-control mr-sm-2" type="search" placeholder="Looking For An Article..." aria-label="Search" name="article_search">
 		<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
 	      </form>
 	    </li>
@@ -80,7 +77,7 @@
     {% endblock %}
 
     {% block content %}
-    
+
     {% endblock %}
 
     {% block footer %}
@@ -88,9 +85,9 @@
       <center>
 	<div class="footer-copyright text-center py-3"> &copy 2019 Copyright: <a href="https://github.com/Soojin-C/supercalifragilisticexpialidocious"> Team Supercalifragilisticexplialidocious</a>
 	  <br> Team Members:
-	  <a href="https://github.com/HasifAhmed">Hasif Ahmed</a>, 
-	  <a href="https://github.com/taniacao12">Tania Cao</a>, 
-	  <a href="https://github.com/Soojin-C">Soojin Choi</a>, and 
+	  <a href="https://github.com/HasifAhmed">Hasif Ahmed</a>,
+	  <a href="https://github.com/taniacao12">Tania Cao</a>,
+	  <a href="https://github.com/Soojin-C">Soojin Choi</a>, and
 	  <a href="https://github.com/shinbamba">Shin Bamba</a>
 	</div>
       </center>

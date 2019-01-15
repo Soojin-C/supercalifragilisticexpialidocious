@@ -4,16 +4,12 @@
 {% for each in watchlist %}
 <p>
 
-<<<<<<< HEAD
-  <a href="/stockResults?stock_info={{each[1]}}{*}watchlist"> {{ each[0] }} </a>
-=======
-      <a href="/stockResults?stock_info={{each[1]}}{*}watchlist"> {{ each[0]["companyName"] }} </a> <br>
-      <b> Latest Price: {{ each[0]["iexRealtimePrice"] }} </b> <br>
-      Low:{{ each[0]["low"] }} <br>
-      High: {{ each[0]["high"] }} <br>
-      Volume : [ {{ each[0]["latestVolume"] }} ] <br>
-      Yield: {{ each[0]["ytdChange"] }} <br>
->>>>>>> dcae61b534f2b2f6044928fe744117d5271e6d17
+  <a href="/stockResults?stock_info={{each[1]}}{*}watchlist"> {{ each[0]["companyName"] }} </a> <br>
+  <b> Latest Price: {{ each[0]["iexRealtimePrice"] }} </b> <br>
+  Low:{{ each[0]["low"] }} <br>
+  High: {{ each[0]["high"] }} <br>
+  Volume : [ {{ each[0]["latestVolume"] }} ] <br>
+  Yield: {{ each[0]["ytdChange"] }} <br>
 
   <form action = "/removeWatchlist">
     <div class="form-group">

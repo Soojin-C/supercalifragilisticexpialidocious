@@ -107,15 +107,10 @@ def stockResults():
 			companyCode = info.getSymbol(search)
 			if (companyCode == "NONE"):
 				print("bad search...")
-<<<<<<< HEAD
-				flash ("No company of that name found...")
-				return redirect(url_for("stockResearch"), title = "Stock Results", heading = "Stock Results")
-=======
 				flash ("No company of that name found in our database...")
-				return redirect(url_for("stockResearch"))
->>>>>>> dcae61b534f2b2f6044928fe744117d5271e6d17
-				#Each will hold a list with all the company info.
+				return redirect(url_for("stockResearch"), title = "Stock Results", heading = "Stock Results")
 
+			#Each will hold a list with all the company info.
 			for each in companyCode:
 				#print(each)
 				company_info = info.getStocks(each)
@@ -172,20 +167,13 @@ def watchlist():
 		watchlist_data = []
 		data = db.get_watchlist(session["logged_in"])
 		for each in data:
-<<<<<<< HEAD
 			#each [stock_name]
 			remove_data = each[0]. replace(" ", "|~|~|").replace("&", "and")
 			print("rmv: " + remove_data)
 			watchlist_data.append([each[0], remove_data])
 		return render_template("watchlist.html", watchlist = watchlist_data, title = "Watchlist", heading = "Watchlist", logged_in = True)
-=======
-			companyCode = each[0]
-			companyInfo = info.getStocks(companyCode.lower())
-			watchlist_data.append([companyInfo, companyCode])
-		return render_template("watchlist.html", watchlist = watchlist_data, logged_in = True)
->>>>>>> dcae61b534f2b2f6044928fe744117d5271e6d17
 	else:
-		flash ("Please login to view the watchlist")
+		flash ("Please login to view Watchlist")
 		return render_template("login.html", title = "Login", heading = "Login")#redirect(url_for("login"))
 
 

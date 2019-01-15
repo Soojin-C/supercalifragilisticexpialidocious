@@ -205,7 +205,6 @@ def rankings():
 def portfolio():
 	if "logged_in" in session:
 		data = db.get_portfolio(session["logged_in"])
-		print(data)
 		return render_template("portfolio.html", title = "Portfolio", heading = "Portfolio", portfolio_data = data, logged_in = True)
 	else:
 		flash("Please login to view Portfolio")

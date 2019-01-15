@@ -175,6 +175,16 @@ def watchlist():
 		flash ("Please login to view the watchlist")
 		return render_template("login.html", type = "watchlist")#redirect(url_for("login"))
 
+
+@app.route("/articles")
+def articles():
+	dict= info.getArticles("stock")
+	if "logged_in" in session:
+		return render_template("news.html", articles = dict, logged_in= True)
+	else:
+		return render_template("news.html", articles = dict, logged_in= False)
+
+
 if __name__ == "__main__":
     app.debug = True
     app.run()

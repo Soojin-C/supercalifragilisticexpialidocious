@@ -85,7 +85,7 @@ def getArticles(query):
 	response = data["response"]["docs"]
 	#return response
 	for article in response:
-		articles[article["snippet"]] = article["web_url"]
+		articles[article["headline"]["main"]] = article["web_url"]
 	return articles
 
 #print(getStocks("Apple Inc."))

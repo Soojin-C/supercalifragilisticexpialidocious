@@ -167,15 +167,13 @@ def watchlist():
 		watchlist_data = []
 		data = db.get_watchlist(session["logged_in"])
 		for each in data:
-			#each [stock_name]
-			remove_data = each[0]. replace(" ", "|~|~|").replace("&", "and")
-			print("rmv: " + remove_data)
-			watchlist_data.append([each[0], remove_data])
+			companyCode = each[0]
+			companyInfo = info.getStocks(companyCode.lower())
+			watchlist_data.append([companyInfo, companyCode])
 		return render_template("watchlist.html", watchlist = watchlist_data, title = "Watchlist", heading = "Watchlist", logged_in = True)
 	else:
 		flash ("Please login to view Watchlist")
 		return render_template("login.html", title = "Login", heading = "Login")#redirect(url_for("login"))
-
 
 @app.route("/articles")
 def articles():

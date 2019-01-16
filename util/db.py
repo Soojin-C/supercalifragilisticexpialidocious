@@ -235,10 +235,29 @@ def rankings():
     """Retrieve rankings,"""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-
+    moolah = []
+    bignames = []
+    dict = {}
     accounts = c.execute("SELECT portfolio.username, portfolio.account_val FROM portfolio")
-
-    return accounts
+    
+    i = 0
+    for name, dollas in accounts:
+        moolah[i] = dollas
+        bignames[i] = name
+        i += 1
+    for num in range(len(moolah)- 1, 0, -1):
+        for x in range(num):
+            if moolah[x] > moolah[x+1]:
+                temp = moolah[x]
+                moolah[x] = moolah[x+1]
+                moolah[x+1] = temp
+                temp = bignames[x]
+                bignames[x] = bignames[x+1]
+                bignames[x+1] = temp
+    for y in range(len(moolah - 1,0,-1)):
+        dict[bignames[y]] = moolah[y]
+            
+    return dict
     db.commit()
     db.close()
 # =====================================================================================

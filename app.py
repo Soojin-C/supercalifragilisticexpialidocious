@@ -205,12 +205,18 @@ def buyStock():
 		if request.args[each] == "Buy Stock":
 			data = each.replace(" ", "").split("|~~|")
 			break
+	search = data[2].split("{!{!!}!}")[1]
 	companyCode = data[0].lower()
 	stockPrice = round(float(data[1]), 2)
 	print(data)
-	search = data[2].split("{!{!!}!}")[1]
 	print(search)
+	if (request.args["stock_buy"] == "" ):
+		flash("Invalid number of stocks.")
+		return redirect(url_for("stockResults" , stock_info = search))
 	numStocks = int(request.args["stock_buy"])
+	if ( numStocks <= 0):
+		flash("Invalid number of stocks.")
+		return redirect(url_for("stockResults" , stock_info = search))
 	totalPrice = round(stockPrice * numStocks, 2)
 	currPortfolio = db.get_portfolio(session["logged_in"])
 
@@ -220,11 +226,12 @@ def buyStock():
 
 	db.buy_stock(session["logged_in"], companyCode, numStocks, totalPrice)
 
-	new_account_val = currPortfolio[1] + totalPrice
 	new_buying_power = currPortfolio[3] - totalPrice
+	new_account_val = new_buying_power + info.getStocks(companyCode)["latestPrice"]
 	new_cash = currPortfolio[3] - totalPrice
+	new_annual_ret = round((new_account_val / 100000) - 1, 2)
 
-	db.add_profile(session["logged_in"],round(new_account_val, 2), round(new_buying_power, 2), round(new_cash, 2), 0.00)
+	db.add_profile(session["logged_in"],round(new_account_val, 2), round(new_buying_power, 2), round(new_cash, 2), new_annual_ret)
 
 	return redirect(url_for("portfolio"))
 
@@ -244,10 +251,11 @@ def sellStock():
 	numS = data[3]
 
 	currPortfolio = db.get_portfolio(session["logged_in"])
-	new_account_val = currPortfolio[1] - sell
 	new_buying_power = currPortfolio[3] + sell
 	new_cash = currPortfolio[3] + sell
-	db.add_profile(session["logged_in"],round(new_account_val), round(new_buying_power), round(new_cash), 0.00)
+	new_account_val = new_buying_power
+	new_annual_ret = round((new_account_val / 100000) - 1, 2)
+	db.add_profile(session["logged_in"],round(new_account_val), round(new_buying_power), round(new_cash), new_annual_ret)
 
 	db.remove_stock(session["logged_in"], code, paid, numS)
 	return redirect(url_for("portfolio"))
@@ -255,16 +263,25 @@ def sellStock():
 @app.route("/portfolio")
 def portfolio():
 	if "logged_in" in session:
-		data = db.get_portfolio(session["logged_in"])
 		stock_data = db.get_stocks(session["logged_in"])
 		print("stock data : " )
 		print(stock_data)
 		counter = 0;
 		for each in stock_data:
+			data = db.get_portfolio(session["logged_in"])
 			stock_info = info.getStocks(each[0])
 			stock_data[counter] = [each[0], each[1], each[2], stock_info["latestPrice"], round(stock_info["latestPrice"] * int(each[1]), 2), stock_info["companyName"]]
+			print(stock_data)
+			if (counter == 0):
+				buying_power = data[2]
+			else:
+				buying_power = data[1]
+			new_account_val = buying_power + stock_data[counter][4]
+			print(new_account_val)
+			value = round((new_account_val / 100000) - 1, 2)
 			counter = counter + 1
-		print(stock_data)
+			db.add_profile(session["logged_in"],round(new_account_val, 2), data[2], data[3], value)
+		data = db.get_portfolio(session["logged_in"])
 		return render_template("portfolio.html", title = "Portfolio", heading = "Portfolio", portfolio_data = data, bought_stocks = stock_data, logged_in = True)
 	else:
 		flash("Please login to view Portfolio")

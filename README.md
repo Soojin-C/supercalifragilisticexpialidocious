@@ -18,6 +18,7 @@ Stock Overflow is a website focusing on investment and financing education. User
    * Deactivate it by running `$ deactivate`
 5. Activate your virtual environment. 
 6. In the root of the directory, run `$ pip install -r requirements.txt`
+  * This will instal flask and wheel for you. Manually, you can run `$ pip install flask` and `$ pip install wheel`
 7. To obtain API keys, look below for the instructions. Insert the obtained New York Times key into the file keys.json. 
 8. Now you are ready to run the flask app. Run the command `$ python app.py`. (Make sure your virtual enviornment is actvated)
 9. Launch the root route (http://127.0.0.1:5000/) in your browser.
@@ -30,6 +31,7 @@ Two APIs are used in this project:
 * Data provided for free by IEX. View IEX’s Terms of Use.
 ###### The New York Times
 * Provides the articles for the article search
-* Obtain an New York Times API key [here](https://developer.nytimes.com/signup) Please select the API to Article Search API.
+* First make an account, then create a new app in order to obtain your API key
+* Obtain an New York Times API key [here](https://developer.nytimes.com/get-started) Please select the API to Article Search API.
 * Place the key to replace the "nyt key here" in the keys.json file,, which is in the keys directory.
 

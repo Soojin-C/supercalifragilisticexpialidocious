@@ -90,7 +90,7 @@ def getArticles(query):
 		print("MISSING NEW YORK TIMES API KEY")
 		quit()
 	search = query.lower()
-	nytUrl = request.Request("https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytKey + "&q=" +search, headers={'User-Agent': 'Mozilla/5.0'})
+	nytUrl = request.Request("https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytKey + "&q=" +search + "&fq=news_desk:Financial%20business", headers={'User-Agent': 'Mozilla/5.0'})
 	data = json.loads(request.urlopen(nytUrl).read())
 	articles = {}
 	response = data["response"]["docs"]
@@ -100,4 +100,4 @@ def getArticles(query):
 	return articles
 
 #print(getStocks("Apple Inc."))
-#print(getArticles("stock"))
+print(getArticles("stock"))

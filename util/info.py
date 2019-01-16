@@ -58,46 +58,46 @@ def quickGetSymbol(name):
 Given a valid IEX Trading company symbol, will return the stock information of the past 30 days.
 '''
 def getStocksInfo(symbol):
-	name = symbol.lower()
-	try:
-		iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" + name + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
-	except:
-		print("Problems with IEX Trading API. API may be broken")
-		quit()
-	data = json.loads(request.urlopen(iexUrl).read())
-	return data["chart"]
+    name = symbol.lower()
+    try:
+        iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" + name + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
+    except:
+        print("Problems with IEX Trading API. API may be broken")
+        quit()
+    data = json.loads(request.urlopen(iexUrl).read())
+    return data["chart"]
 
 '''
 Given a valid IEX Trading company symbol, will return the stock information of currently.
 '''
+
 def getStocks(symbol):
-	name = symbol.lower()
-	try:
-		iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" + name + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
-	except:
-		print("Problems with IEX Trading API. API may be broken")
-		quit()
-	data = json.loads(request.urlopen(iexUrl).read())
-	return data["quote"]
+    name = symbol.lower()
+    try:
+        iexUrl = request.Request("https://api.iextrading.com/1.0/stock/" + name + "/batch?types=quote,news,chart&range=1m&last=10", headers={'User-Agent': 'Mozilla/5.0'})
+    except:
+        print("Problems with IEX Trading API. API may be broken")
+        quit()
+    data = json.loads(request.urlopen(iexUrl).read())
+    return data["quote"]
 
 '''
 Given a search query, will return a dictionary of snippets of the article and the url
 '''
 def getArticles(query):
-	try:
-		nytKey = api_dict["nyt"]
-	except:
-		print("MISSING NEW YORK TIMES API KEY")
-		quit()
-	search = query.lower()
-	nytUrl = request.Request("https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytKey + "&q=" +search + "&fq=news_desk:Financial%20business", headers={'User-Agent': 'Mozilla/5.0'})
-	data = json.loads(request.urlopen(nytUrl).read())
-	articles = {}
-	response = data["response"]["docs"]
+    search = query.lower()
+    try:
+        nytKey = api_dict["nyt"]
+        nytUrl = request.Request("https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytKey + "&q=" +search + "&fq=news_desk:Financial%20business", headers={'User-Agent': 'Mozilla/5.0'})
+        data = json.loads(request.urlopen(nytUrl).read())
+    except:
+        return "NONE"
+    articles = {}
+    response = data["response"]["docs"]
 	#return response
-	for article in response:
-		articles[article["headline"]["main"]] = article["web_url"]
-	return articles
+    for article in response:
+        articles[article["headline"]["main"]] = article["web_url"]
+    return articles
 
 #print(getStocks("Apple Inc."))
 #print(getArticles("stock"))

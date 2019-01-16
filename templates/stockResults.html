@@ -26,8 +26,8 @@
   <td>
     <form action = "/buyStock">
       <div class="form-group">
-        <input type="text" name="stock_buy" class="form-control" id="Stock_buy">
-        <button type="submit" class="btn btn-outline-danger btn-sm" id="buy_btn" name = {{companyInfo[each][0]["symbol"]}} value = "Buy Stock">Buy Stock</button>
+        <input type="number" name="stock_buy" class="form-control" id="Stock_buy">
+        <button type="submit" class="btn btn-outline-danger btn-sm" id="buy_btn" name = {{companyInfo[each][0]["symbol"]}}|~~|{{companyInfo[each][0]["latestPrice"]}}|~~|{{companyInfo[each][1][0]}} value = "Buy Stock">Buy Stock</button>
       </div>
     </form>
   </td>

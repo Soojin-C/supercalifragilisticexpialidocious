@@ -96,6 +96,7 @@ def stockResults():
 			companyCode = request.args["stock_info"].replace("{*}watchlist", "")
 
 			company_info = info.getStocks(companyCode)
+			company_info["ytdChange"] = round(company_info["ytdChange"], 5)
 			watchlistYet = db.check_watchlist(session["logged_in"], companyCode)
 					        #[companyNAme + search_that_led, TRUE/FALSE]
 			watchlist_info = [companyCode + "{!{!!}!}" + request.args["stock_info"], watchlistYet]
@@ -109,12 +110,13 @@ def stockResults():
 			if (companyCode == "NONE"):
 				print("bad search...")
 				flash ("No company of that name found in our database...")
-				return redirect(url_for("stockResearch"), title = "Stock Results", heading = "Stock Results")
+				return redirect(url_for("stockResearch"))
 
 			#Each will hold a list with all the company info.
 			for each in companyCode:
 				#print(each)
 				company_info = info.getStocks(each)
+				company_info["ytdChange"] = round(company_info["ytdChange"], 5)
 				#print(company_info)
 
 				companyName = companyCode[each].replace(" ", "|~|~|")
@@ -126,7 +128,7 @@ def stockResults():
 
 		return render_template("stockResults.html", title = "Stock Results", heading = "Stock Results", logged_in = True, companyInfo = retval)
 	else:
-		return render_template("login.html", title = "Stock Results", heading = "Stock Results", type = "stockResearch")
+		return render_template("login.html", title = "Login", heading = "Login", type = "stockResearch")
 
 # Depending on the current status, either adds or removes from the watchlist
 # Returns to the original search page.
@@ -196,11 +198,74 @@ def rankings():
 		flash("Please login to view Rankings")
 		return render_template("login.html", title = "Login", heading = "Login", type = "rankings")
 
+@app.route("/buyStock")
+def buyStock():
+	print(request.args)
+	for each in request.args:
+		if request.args[each] == "Buy Stock":
+			data = each.replace(" ", "").split("|~~|")
+			break
+	companyCode = data[0].lower()
+	stockPrice = round(float(data[1]), 2)
+	print(data)
+	search = data[2].split("{!{!!}!}")[1]
+	print(search)
+	numStocks = int(request.args["stock_buy"])
+	totalPrice = round(stockPrice * numStocks, 2)
+	currPortfolio = db.get_portfolio(session["logged_in"])
+
+	if ( totalPrice > currPortfolio[2] ):
+		flash("You don't have enough money to buy this.")
+		return redirect(url_for("stockResults" , stock_info = search))
+
+	db.buy_stock(session["logged_in"], companyCode, numStocks, totalPrice)
+
+	new_account_val = currPortfolio[1] + totalPrice
+	new_buying_power = currPortfolio[3] - totalPrice
+	new_cash = currPortfolio[3] - totalPrice
+
+	db.add_profile(session["logged_in"],round(new_account_val, 2), round(new_buying_power, 2), round(new_cash, 2), 0.00)
+
+	return redirect(url_for("portfolio"))
+
+@app.route("/sellStock")
+def sellStock():
+	print(request.args)
+	data = []
+	for each in request.args:
+		if request.args[each] == "Sell Stocks":
+			data = each.replace(" ", "").split("|~~|")
+			print(data)
+			print("^data")
+			break
+	code = data[0]
+	paid = data[1]
+	sell = round(float(data[2]) , 2)
+	numS = data[3]
+
+	currPortfolio = db.get_portfolio(session["logged_in"])
+	new_account_val = currPortfolio[1] - sell
+	new_buying_power = currPortfolio[3] + sell
+	new_cash = currPortfolio[3] + sell
+	db.add_profile(session["logged_in"],round(new_account_val), round(new_buying_power), round(new_cash), 0.00)
+
+	db.remove_stock(session["logged_in"], code, paid, numS)
+	return redirect(url_for("portfolio"))
+
 @app.route("/portfolio")
 def portfolio():
 	if "logged_in" in session:
 		data = db.get_portfolio(session["logged_in"])
-		return render_template("portfolio.html", title = "Portfolio", heading = "Portfolio", portfolio_data = data, logged_in = True)
+		stock_data = db.get_stocks(session["logged_in"])
+		print("stock data : " )
+		print(stock_data)
+		counter = 0;
+		for each in stock_data:
+			stock_info = info.getStocks(each[0])
+			stock_data[counter] = [each[0], each[1], each[2], stock_info["latestPrice"], round(stock_info["latestPrice"] * int(each[1]), 2), stock_info["companyName"]]
+			counter = counter + 1
+		print(stock_data)
+		return render_template("portfolio.html", title = "Portfolio", heading = "Portfolio", portfolio_data = data, bought_stocks = stock_data, logged_in = True)
 	else:
 		flash("Please login to view Portfolio")
 		return render_template("login.html", title = "Login", heading = "Login", type = "portfolio")

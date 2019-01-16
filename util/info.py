@@ -100,4 +100,4 @@ def getArticles(query):
 	return articles
 
 #print(getStocks("Apple Inc."))
-print(getArticles("stock"))
+#print(getArticles("stock"))

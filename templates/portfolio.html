@@ -19,26 +19,26 @@
     <thead>
       <tr class="bg-danger text-white">
 	<th>Company</th>
-	<th>Latest Price</th>
-	<th>Low</th>
-	<th>High</th>
-	<th>Volume</th>
-	<th>Yield</th>
+	<th># of Stocks Bought</th>
+	<th>Price Paid</th>
+	<th>Current Price</th>
+	<th>Sell Price</th>
+	<th> </th>
 	<th> </th>
       </tr>
     </thead>
     <tbody>
-      {% for each in watchlist %}
-      <th> <a href="/stockResults?stock_info={{each[1]}}{*}watchlist"> {{ each[0]["companyName"] }} </a> </th>
-      <td> {{ each[0]["latestPrice"] }} </td>
-      <td> {{ each[0]["low"] }} </td>
-      <td> {{ each[0]["high"] }} </td>
-      <td> {{ each[0]["latestVolume"] }} </td>
-      <td> {{ each[0]["ytdChange"] }}% </td>
+      {% for each in bought_stocks %}
+      <tr>
+      <th> <a href="/stockResults?stock_info={{each[0]}}{*}watchlist"> {{ each[5] }} </a> </th>
+      <td> {{ each[1] }} </td>
+      <td> {{ each[2] }} </td>
+      <td> {{ each[3] }} </td>
+      <td> {{ each[4] }} </td>
       <td>
-	<form action = "/removeWatchlist">
+	<form action = "/sellStock">
 	  <div class="form-group">
-	    <button type="submit" class="btn btn-outline-danger btn-sm" id="remove_btn" name = {{each[1]}} value = "Remove from watchlist">Remove from Watchlist</button>
+	    <button type="submit" class="btn btn-outline-danger btn-sm" id="sell_btn" name = {{each[0]}}|~~|{{each[2]}}|~~|{{each[4]}}|~~|{{each[1]}} value = "Sell Stocks">Sell Stocks</button>
 	  </div>
 	</form>
       </td>

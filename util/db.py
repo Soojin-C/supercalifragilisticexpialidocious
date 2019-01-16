@@ -11,7 +11,7 @@ def create_tables():
     command = "CREATE TABLE portfolio (username TEXT, account_val FLOAT, buying_power FLOAT, cash FLOAT, annual_ret FLOAT)"
     c.execute(command)
 
-    command = "CREATE TABLE user_stocks (username TEXT, stock_name TEXT, num_stocks INTEGER, price_paid FLOAT)"
+    command = "CREATE TABLE user_stocks (username TEXT, stock_name TEXT, num_stocks INTEGER, price_paid FLOAT, dup INTEGER)"
     c.execute(command)
 
     command = "CREATE TABLE watchlist (username TEXT, stock_name TEXT)"
@@ -58,7 +58,8 @@ def buy_stock(user, new_stock_name, new_num_stock, new_price_paid):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    c.execute("INSERT INTO user_stocks VALUES(?, ?, ?, ?)", (user, new_stock_name, new_num_stock, new_price_paid))
+    dup = get_lowestNum(user, new_stock_name,  new_price_paid, new_num_stock,"add")
+    c.execute("INSERT INTO user_stocks VALUES(?, ?, ?, ?, ?)", (user, new_stock_name, new_num_stock, new_price_paid, dup))
 
     db.commit()
     db.close()
@@ -166,20 +167,69 @@ def get_stocks(user):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
+    stock_data = []
     ret_val = c.execute("SELECT user_stocks.stock_name, user_stocks.num_stocks, user_stocks.price_paid FROM user_stocks WHERE username = '{}'".format(user))
-
+    for each in ret_val:
+        stock_data.append([each[0], each[1], each[2]])
     db.close()
-    return ret_val
+    print (stock_data)
+    return stock_data
 
-def remove_stock(user, rmv_stock_name):
+def remove_stock(user, rmv_stock_name, rmv_price_paid, rmv_num_stocks):
     """Remove the stock rmv_stock_name when the user sells stocks."""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    c.execute("DELETE FROM user_stocks WHERE username = '{}' and stock_name = '{}'".format(user, rmv_stock_name))
+    dup = get_lowestNum(user, rmv_stock_name, rmv_price_paid, rmv_num_stocks, "rmv")
+    c.execute("DELETE FROM user_stocks WHERE username = '{}' and stock_name = '{}' and price_paid = '{}' and num_stocks= '{}' and dup = '{}'".format(user, rmv_stock_name, rmv_price_paid, rmv_num_stocks, dup))
 
     db.commit()
     db.close()
+
+def get_lowestNum(user, rmv_stock_name, rmv_price_paid, rmv_num_stocks, type):
+    """Remove the stock rmv_watchlist_name from the watchlist for user."""
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    if (check_dup(user, rmv_stock_name, rmv_price_paid, rmv_num_stocks)):
+        ret = c.execute("SELECT dup FROM user_stocks WHERE username = '{}' and stock_name = '{}' and price_paid = '{}' and num_stocks= '{}'".format(user, rmv_stock_name, rmv_price_paid, rmv_num_stocks))
+        ret_val = 0;
+        for each in ret:
+            if (each[0] > ret_val):
+                ret_val = each[0]
+        if (type == "add"):
+            return ret_val + 1
+        else:
+            return ret_val
+    else:
+        if (type == "add"):
+            return 0;
+
+    db.close()
+    return -1
+
+def check_dup(user, rmv_stock_name, rmv_price_paid, rmv_num_stocks):
+    """Remove the stock rmv_watchlist_name from the watchlist for user."""
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    stock_data = []
+    ret_val = c.execute("SELECT * FROM user_stocks")
+    for each in ret_val:
+        print(each)
+        if (each[0] == user):
+            print("9")
+            if (each[1] == rmv_stock_name):
+                print(round(float(rmv_price_paid), 2))
+                if (each[3] == round(float(rmv_price_paid), 2)):
+                    print("9")
+                    if (each[2] == round(int(rmv_num_stocks))):
+                        print("TRUE ===========================")
+                        return True
+    db.close()
+    print("FALSE ===========================")
+    return False
+
 
 def rankings():
     """Retrieve rankings,"""

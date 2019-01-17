@@ -17,26 +17,21 @@ def getSymbol(name):
     iexUrl = request.Request("https://api.iextrading.com/1.0/ref-data/symbols", headers={'User-Agent': 'Mozilla/5.0'})
     data = json.loads(request.urlopen(iexUrl).read())
     symbols = {}
+    counter = 0
     for comp in data:
         companyName = comp["name"].lower()
         companyName = companyName.replace(".", " ")
         companyName = companyName.replace("&", "and")
         companyName = " " + companyName
         #print (companyName)
-        symbols[companyName] = [comp["symbol"], comp["name"]]
-
-    retval = {}
-    counter = 0
-    for each in symbols:
         if counter > 10:
             break
-        if (each.find(name) != -1):
-            # retval{symbol: name}
-            retval[symbols[each][0]] = symbols[each][1]
+        if (companyName.find(name) != -1):
+            symbols[comp["symbol"]] = comp["name"]
             counter = counter + 1
     if (counter > 0):
         #print (retval)
-        return retval
+        return symbols
     else:
         return "NONE"
 

@@ -92,7 +92,7 @@ def stockResults():
 			return (redirect(url_for("stockResearch")))
 
 		#If the user comes form the watchlist.
-		if (request.args["stock_info"].find("{*}") != - 1):
+		if (request.args["stock_info"].find("{*}") != -1):
 			companyCode = request.args["stock_info"].replace("{*}watchlist", "")
 
 			company_info = info.getStocks(companyCode)
@@ -197,11 +197,27 @@ def rankings():
 	dict = db.rankings()
 	ranks = {}
 	if "logged_in" in session:
+		for username in dict:
+			stock_data = db.get_stocks(username)
+			counter = 0
+			for each in stock_data:
+				data = db.get_portfolio(username)
+				stock_info = info.getStocks(each[0])
+				if (counter == 0):
+					buying_power = data[2]
+				else:
+					buying_power = data[1]
+				new_account_val = buying_power + round(stock_info["latestPrice"] * int(each[1]), 2)
+				print(new_account_val)
+				value = round((new_account_val / 100000.00) - 1.00, 2)
+				counter = counter + 1
+				db.add_profile(username,round(new_account_val, 2), data[2], data[3], value)
+			data = db.get_portfolio(username)
 		i = 1;
 		for username in dict:
 			ranks[i] = [username, dict[username]]
 			i = i + 1
-		return render_template("rankings.html", order = ranks, title = "Rankings", heading = "Rankings", logged_in = True)
+		return render_template("rankings.html", order = ranks, user = session["logged_in"] ,title = "Rankings", heading = "Rankings", logged_in = True)
 	else:
 		flash("Please login to view Rankings")
 		return render_template("login.html", title = "Login", heading = "Login", type = "rankings")
@@ -237,7 +253,8 @@ def buyStock():
 	new_buying_power = currPortfolio[3] - totalPrice
 	new_account_val = new_buying_power + info.getStocks(companyCode)["latestPrice"]
 	new_cash = currPortfolio[3] - totalPrice
-	new_annual_ret = round((new_account_val / 100000) - 1, 2)
+	new_annual_ret = round((new_account_val / 100000.0) - 1.00, 2)
+	print (new_annual_ret)
 
 	db.add_profile(session["logged_in"],round(new_account_val, 2), round(new_buying_power, 2), round(new_cash, 2), new_annual_ret)
 
@@ -262,7 +279,7 @@ def sellStock():
 	new_buying_power = currPortfolio[3] + sell
 	new_cash = currPortfolio[3] + sell
 	new_account_val = new_buying_power
-	new_annual_ret = round((new_account_val / 100000) - 1, 2)
+	new_annual_ret = round((new_account_val / 100000.0) - 1.00, 2)
 	db.add_profile(session["logged_in"],round(new_account_val), round(new_buying_power), round(new_cash), new_annual_ret)
 
 	db.remove_stock(session["logged_in"], code, paid, numS)
@@ -286,7 +303,8 @@ def portfolio():
 				buying_power = data[1]
 			new_account_val = buying_power + stock_data[counter][4]
 			print(new_account_val)
-			value = round((new_account_val / 100000) - 1, 2)
+			value = round((new_account_val / 100000.0) - 1.00, 2)
+			print(value)
 			counter = counter + 1
 			db.add_profile(session["logged_in"],round(new_account_val, 2), data[2], data[3], value)
 		data = db.get_portfolio(session["logged_in"])

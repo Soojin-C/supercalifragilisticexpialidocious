@@ -247,7 +247,7 @@ def rankings():
 
     for num in range(len(moolah)- 1, 0, -1):
         for x in range(num):
-            if moolah[x] > moolah[x+1]:
+            if moolah[x] < moolah[x+1]:
                 temp = moolah[x]
                 moolah[x] = moolah[x+1]
                 moolah[x+1] = temp
@@ -256,7 +256,7 @@ def rankings():
                 bignames[x+1] = temp
     for y in range(len(moolah)):
         dict[bignames[y]] = moolah[y]
-    
+
     return dict
     db.commit()
     db.close()

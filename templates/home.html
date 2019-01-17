@@ -1,5 +1,37 @@
 {% extends "parent.html" %}
 
 {% block content %}
-<h3 class="text-center"> Hello {{ user }}! </h3>
+{% if not logged_in %}
+<p> <b> Stock Overflow is a website focusing on investment and financing education </b> </p>
+
+<p>
+  <ul>
+    <b> Things you can do: </b>
+    <li> Read articles relevant to the financial world by searching any keyword in the search bar at the top right corner </li>
+    <li> Join the simulation game (to access the game, login <a href="\login"> here </a> or make an account <a href="\register">here</a>) </li>
+  </ul>
+</p>
+
+{% else %}
+
+<p> <b> Stock Overflow is a website focusing on investment and financing education </b> </p>
+
+<p>
+  <ul>
+    <b> Things you can do: </b>
+    <li> Read articles relevant to the financial world by searching any keyword in the search bar at the top right corner </li>
+    <li> Join the simulation game by clicking on the button to the right of the logo at the top left corner </li>
+  </ul>
+</p>
+
+<p>
+  <ul>
+    <b> Parts of the simulation: </b>
+    <li> Portfolio -> profile where you can view your purchased stocks and sell them </li>
+    <li> Rankings -> ranking of all users </li>
+    <li> Stocks -> search and view information on stocks </li>
+    <li> Watchlist -> view and keep track of stocks you are interested in </li>
+  </ul>
+</p>
+{% endif %}
 {% endblock %}

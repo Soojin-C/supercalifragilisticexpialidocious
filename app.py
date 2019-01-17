@@ -11,8 +11,8 @@ app.secret_key=os.urandom(32)
 @app.route("/")
 def home():
 	if "logged_in" in session:
-		return render_template("home.html", title = "Home", heading = "Home", user = session["logged_in"], logged_in = True)
-	return render_template("home.html", title = "Home", heading = "Home", user = "User", logged_in = False)
+		return render_template("home.html", title = "Home", heading = "Hello " + session["logged_in"] + "!", user = session["logged_in"], logged_in = True)
+	return render_template("home.html", title = "Home", heading = "Hello Guest!", logged_in = False)
 
 #Authenticates user and adds session
 #Returns to the page the user was on previously(?)

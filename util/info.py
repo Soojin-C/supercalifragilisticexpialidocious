@@ -85,19 +85,20 @@ def getStocks(symbol):
 Given a search query, will return a dictionary of snippets of the article and the url
 '''
 def getArticles(query):
-    search = query.lower()
-    try:
-        nytKey = api_dict["nyt"]
-        nytUrl = request.Request("https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytKey + "&q=" +search + "&fq=news_desk:Financial%20business", headers={'User-Agent': 'Mozilla/5.0'})
-        data = json.loads(request.urlopen(nytUrl).read())
-    except:
-        return "NONE"
-    articles = {}
-    response = data["response"]["docs"]
+	search = query.lower()
+	try:
+		nytKey = api_dict["nyt"]
+		nytUrl = request.Request("https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + nytKey + "&q=" +search + "&fq=news_desk:Financial%20business", headers={'User-Agent': 'Mozilla/5.0'})
+		data = json.loads(request.urlopen(nytUrl).read())
+	except:
+		return None
+	articles = {}
+	response = data["response"]["docs"]
 	#return response
-    for article in response:
-        articles[article["headline"]["main"]] = article["web_url"]
-    return articles
+	for article in response:
+		articles[article["headline"]["main"]] = article["web_url"]
+	#print(articles)
+	return articles
 
 #print(getStocks("Apple Inc."))
 #print(getArticles("stock"))

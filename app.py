@@ -177,8 +177,16 @@ def watchlist():
 
 @app.route("/articles")
 def articles():
-	print(request.form)
-	dict= info.getArticles(request.args["article_search"])
+	#print(request.form)
+	query = request.args["article_search"]
+	if query.strip() == "":
+		query = "stock"
+	dict= info.getArticles(query)
+	if dict == None:
+		flash("Invalid API KEY")
+		return render_template("login.html", title = "Login", heading = "Login", type = "watchlist")#redirect(url_for("login"))
+	if len(dict) < 1:
+		flash("No articles found. Try again")
 	if "logged_in" in session:
 		return render_template("news.html", title = "Article Results", heading = "Article Results", articles = dict, logged_in= True)
 	else:

@@ -190,8 +190,8 @@ def rankings():
 	ranks = {}
 	if "logged_in" in session:
 		i = 1;
-		for username, accval in dict:
-			ranks[i] = [username,accval]
+		for username in dict:
+			ranks[i] = [username, dict[username]]
 			i = i + 1
 		return render_template("rankings.html", order = ranks, title = "Rankings", heading = "Rankings", logged_in = True)
 	else:

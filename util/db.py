@@ -239,12 +239,12 @@ def rankings():
     bignames = []
     dict = {}
     accounts = c.execute("SELECT portfolio.username, portfolio.account_val FROM portfolio")
-    
-    i = 0
+
+
     for name, dollas in accounts:
-        moolah[i] = dollas
-        bignames[i] = name
-        i += 1
+        moolah.append(dollas)
+        bignames.append(name)
+
     for num in range(len(moolah)- 1, 0, -1):
         for x in range(num):
             if moolah[x] > moolah[x+1]:
@@ -254,9 +254,9 @@ def rankings():
                 temp = bignames[x]
                 bignames[x] = bignames[x+1]
                 bignames[x+1] = temp
-    for y in range(len(moolah - 1,0,-1)):
+    for y in range(len(moolah)):
         dict[bignames[y]] = moolah[y]
-            
+    
     return dict
     db.commit()
     db.close()

@@ -182,7 +182,15 @@ taniaC -- 2019-01-17 13:45
 0. Fixed the home page to give more information to users
 ==============================================================
 
-firstL -- 2019-01-XX XX:XX
+hasifA -- 2019-01-17 19:10
 --------------------------------------------------------------
-0. log
+0. Added pop button to the homepage
+==============================================================
+
+soojinC -- 2019-01-17 19:17
+--------------------------------------------------------------
+0. Updated design.pdf
+    - Removed the Alpha Vantage, which was the backup API, from the component map.
+    - Updated the site map to include the new layout of the pages.
+    - Updated the explaination to include the features of each page currently.
 ==============================================================

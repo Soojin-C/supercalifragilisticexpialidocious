@@ -7,6 +7,9 @@ Hasif Ahmed, Shin Bamba, Tania Cao, Soojin Choi(PM)
 ### Project Overview
 Stock Overflow is a website focusing on investment and financing education. Users will be able to read articles revelvant to the financial world and view information on a wide range of stocks. Users can take part in a simulation game where they have an initial buying power of $100, 000. With that money, they will be able to purchase or sell stocks. If the user is interested in certain stocks, they may add them to the watchlist to keep track of them. 
 
+### Video Demo
+[watch our video demo here](https://youtu.be/UX8oNpM-zjI)
+
 ### Launch Instructions
 #### Running Flask App
 1. Go to [root repository](https://github.com/Soojin-C/supercalifragilisticexpialidocious) and click "Clone or Download"

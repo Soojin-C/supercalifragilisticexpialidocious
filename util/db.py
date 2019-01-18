@@ -152,7 +152,7 @@ def get_watchlist(user):
     return watchlist_data
 
 def get_portfolio(user):
-    """Gets all the watchlist stocks for the user."""
+    """Gets all the portfolio info of the user."""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
@@ -163,7 +163,7 @@ def get_portfolio(user):
     return ret_val
 
 def get_stocks(user):
-    """Remove the stock rmv_watchlist_name from the watchlist for user."""
+    """Gets all bought stocks the user has."""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
@@ -187,7 +187,7 @@ def remove_stock(user, rmv_stock_name, rmv_price_paid, rmv_num_stocks):
     db.close()
 
 def get_lowestNum(user, rmv_stock_name, rmv_price_paid, rmv_num_stocks, type):
-    """Remove the stock rmv_watchlist_name from the watchlist for user."""
+    """Helper function to find the right unique value for the duplicate purchases."""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
@@ -209,7 +209,7 @@ def get_lowestNum(user, rmv_stock_name, rmv_price_paid, rmv_num_stocks, type):
     return -1
 
 def check_dup(user, rmv_stock_name, rmv_price_paid, rmv_num_stocks):
-    """Remove the stock rmv_watchlist_name from the watchlist for user."""
+    """Check if there are any duplicate purchases"""
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 

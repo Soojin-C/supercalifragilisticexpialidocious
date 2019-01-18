@@ -203,7 +203,6 @@ def rankings():
 	dict = db.rankings()
 	ranks = {}
 	if "logged_in" in session:
-		data = db.get_portfolio(session["logged_in"])
 		for username in dict:
 			stock_data = db.get_stocks(username)
 			counter = 0
@@ -220,6 +219,7 @@ def rankings():
 				counter = counter + 1
 				db.add_profile(username,round(new_account_val, 2), data[2], data[3], value)
 			data = db.get_portfolio(username)
+		data = db.get_portfolio(session["logged_in"])
 		i = 1;
 		for username in dict:
 			ranks[i] = [username, dict[username]]

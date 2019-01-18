@@ -11,7 +11,8 @@ app.secret_key=os.urandom(32)
 @app.route("/")
 def home():
 	if "logged_in" in session:
-		return render_template("home.html", title = "Home", heading = "Hello " + session["logged_in"] + "!", user = session["logged_in"], logged_in = True)
+		data = db.get_portfolio(session["logged_in"])
+		return render_template("home.html", title = "Home", heading = "Hello " + session["logged_in"] + "!", user = session["logged_in"], logged_in = True, portfolio_data = data)
 	return render_template("home.html", title = "Home", heading = "Hello Guest!", logged_in = False)
 
 #Authenticates user and adds session
@@ -77,14 +78,17 @@ def logout():
 @app.route("/stockResearch")
 def stockResearch():
 	if "logged_in" in session:
-		return render_template("stockResearch.html", title = "Stock Search", heading = "Stock Search", logged_in = True)
+		data = db.get_portfolio(session["logged_in"])
+		return render_template("stockResearch.html", portfolio_data = data, title = "Stock Search", heading = "Stock Search", logged_in = True)
 	else:
 		flash("Please login to view Stock Research")
 		return render_template("login.html", title = "Login", heading = "Login", type = "stockResearch")
 
 @app.route("/stockResults")
 def stockResults():
+	data = db.get_portfolio(session["logged_in"])
 	if "logged_in" in session:
+
 		retval = {}
 		#If the user hasn't inputted anything
 		if (request.args["stock_info"] == ""):
@@ -126,7 +130,7 @@ def stockResults():
 
 				retval[companyCode[each]] = [company_info, watchlist_info]
 
-		return render_template("stockResults.html", title = "Stock Results", heading = "Stock Results", logged_in = True, companyInfo = retval)
+		return render_template("stockResults.html", portfolio_data = data, title = "Stock Results", heading = "Stock Results", logged_in = True, companyInfo = retval)
 	else:
 		return render_template("login.html", title = "Login", heading = "Login", type = "stockResearch")
 
@@ -167,10 +171,11 @@ def removeWatchlist():
 @app.route("/watchlist")
 def watchlist():
 	if "logged_in" in session:
+		data = db.get_portfolio(session["logged_in"])
 		watchlist_data = db.get_watchlist(session["logged_in"])
 		for each in watchlist_data:
 			each[0] = info.getStocks(each[1].lower())
-		return render_template("watchlist.html", watchlist = watchlist_data, title = "Watchlist", heading = "Watchlist", logged_in = True)
+		return render_template("watchlist.html", portfolio_data = data, watchlist = watchlist_data, title = "Watchlist", heading = "Watchlist", logged_in = True)
 	else:
 		flash ("Please login to view Watchlist")
 		return render_template("login.html", title = "Login", heading = "Login", type = "watchlist")#redirect(url_for("login"))
@@ -188,7 +193,8 @@ def articles():
 	if len(dict) < 1:
 		flash("No articles found. Try again")
 	if "logged_in" in session:
-		return render_template("news.html", title = "Article Results", heading = "Article Results", articles = dict, logged_in= True)
+		data = db.get_portfolio(session["logged_in"])
+		return render_template("news.html", portfolio_data = data, title = "Article Results", heading = "Article Results", articles = dict, logged_in= True)
 	else:
 		return render_template("news.html", title = "Article Results", heading = "Article Results", articles = dict, logged_in= False)
 
@@ -197,6 +203,7 @@ def rankings():
 	dict = db.rankings()
 	ranks = {}
 	if "logged_in" in session:
+		data = db.get_portfolio(session["logged_in"])
 		for username in dict:
 			stock_data = db.get_stocks(username)
 			counter = 0
@@ -217,7 +224,7 @@ def rankings():
 		for username in dict:
 			ranks[i] = [username, dict[username]]
 			i = i + 1
-		return render_template("rankings.html", order = ranks, user = session["logged_in"] ,title = "Rankings", heading = "Rankings", logged_in = True)
+		return render_template("rankings.html", portfolio_data = data, order = ranks, user = session["logged_in"] ,title = "Rankings", heading = "Rankings", logged_in = True)
 	else:
 		flash("Please login to view Rankings")
 		return render_template("login.html", title = "Login", heading = "Login", type = "rankings")

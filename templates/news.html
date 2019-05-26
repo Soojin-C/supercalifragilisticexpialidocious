@@ -1,9 +1,7 @@
 {% extends "parent.html" %}
 
 {% block content %}
-
 {% for name in articles %}
 <p> <h4 class="text-center"> <a href = "{{ articles[name] }}"> {{ name }} </a> </h4> </p>
 {% endfor %}
-
 {% endblock %}

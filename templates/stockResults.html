@@ -11,8 +11,7 @@
 	<th>High</th>
 	<th>Volume</th>
 	<th>Yield</th>
-	<th> </th>
-	<th> </th>
+	<th colspan="2">Purchase Stocks</th>
 	<th> </th>
       </tr>
     </thead>
@@ -25,7 +24,15 @@
 	<td> {{ companyInfo[each][0]["high"] }} </td>
 	<td> {{ companyInfo[each][0]["latestVolume"] }} </td>
 	<td> {{ companyInfo[each][0]["ytdChange"] }}% </td>
-	<td>
+	<td colspan="2">
+	  <form action = "/buyStock">
+	    <div class="form-group row">
+	      <div class="col"><input type="number" name="stock_buy" class="form-control input-sm" id="Stock_buy"></div>
+	      <div class="col"><button type="submit" class="btn btn-outline-danger btn-sm" id="buy_btn" name = {{companyInfo[each][0]["symbol"]}}|~~|{{companyInfo[each][0]["latestPrice"]}}|~~|{{companyInfo[each][1][0]}} value = "Buy Stock">Buy Stock</button></div>
+	    </div>
+	  </form>
+	</td>
+    <td>
 	  <form action = "/changeWatchlist">
 	    <div class="form-group">
 	      {% if not companyInfo[each][1][1] %}
@@ -36,17 +43,7 @@
 	    </div>
 	  </form>
 	</td>
-	<td colspan="2">
-	  <form action = "/buyStock">
-	    <div class="form-group row">
-	      <div class="col-5">
-		<input type="number" name="stock_buy" class="form-control input-sm" id="Stock_buy">
-              </div>
-	      <button type="submit" class="btn btn-outline-danger btn-sm" id="buy_btn" name = {{companyInfo[each][0]["symbol"]}}|~~|{{companyInfo[each][0]["latestPrice"]}}|~~|{{companyInfo[each][1][0]}} value = "Buy Stock">Buy Stock</button>
-	    </div>
-	  </form>
-	</td>
-      </tr>
+	  </tr>
       {% endfor %}
     </tbody>
   </table>
